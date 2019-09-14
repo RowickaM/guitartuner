@@ -64,6 +64,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //todo 3,5 wykonać menu dolne
+    //todo 4 aktywność z mentronoma
+    //todo 5 możliwość zmiany tempa
+    //todo 6 dodać pykanie w danym tempie i nowa "seria" oznacza się źwiękiem
+    //todo 7 skupić się na wyglądzie
+    //todo 8 może nauka tabów??
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
