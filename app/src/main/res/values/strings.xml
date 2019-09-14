@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">Gitar Tuner</string>
+    <string name="app_name">Guitar Tuner</string>
+    <string name="start_string">Do poprawnego działania aplikacji wymagane są następujące pozwolenia:</string>
+    <array name="permissions">
+        <item>mikrofon</item>
+        <item>internet</item>
+    </array>
+    <array name="tune">
+        <item>E A D G H e</item>
+        <item>D G C F A D</item>
+        <item>Eb G# C# F# Bb Eb</item>
+    </array>
 </resources>
