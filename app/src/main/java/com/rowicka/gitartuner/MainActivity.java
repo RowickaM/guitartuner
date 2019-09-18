@@ -51,9 +51,9 @@ public class MainActivity extends Activity {
 
         if (AudioPermission.checkPermissions(context)){
 
-//            Intent intent = new Intent(context, TunerActivity.class);
+            Intent intent = new Intent(context, TunerActivity.class);
 //            Intent intent = new Intent(context, BeatsPoints.class);
-            Intent intent = new Intent(context, MetronomeActivity.class);
+//            Intent intent = new Intent(context, MetronomeActivity.class);
             startActivity(intent);
         }
 
@@ -63,9 +63,9 @@ public class MainActivity extends Activity {
                 AudioPermission.checkPermissions(context);
                 if (AudioPermission.checkPermissions(context)){
 
-//                    Intent intent = new Intent(context, TunerActivity.class);
+                    Intent intent = new Intent(context, TunerActivity.class);
 //                    Intent intent = new Intent(context, BeatsPoints.class);
-                    Intent intent = new Intent(context, MetronomeActivity.class);
+//                    Intent intent = new Intent(context, MetronomeActivity.class);
                     startActivity(intent);
                 }
             }
@@ -83,9 +83,9 @@ public class MainActivity extends Activity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 Toast.makeText(this, "Pozwolenia nadano", Toast.LENGTH_SHORT).show();
 
-//                Intent intent = new Intent(this, TunerActivity.class);
+                Intent intent = new Intent(this, TunerActivity.class);
 //                Intent intent = new Intent(this, BeatsPoints.class);
-                Intent intent = new Intent(this, MetronomeActivity.class);
+//                Intent intent = new Intent(this, MetronomeActivity.class);
                 startActivity(intent);
 //            }else {
 //                Toast.makeText(this, "Pozwolenia nie nadano", Toast.LENGTH_SHORT).show();

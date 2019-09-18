@@ -9,7 +9,6 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -79,7 +78,6 @@ public class TunerActivity extends Activity {
 
                 switch ((int) id) {
                     case 0: {
-                        Toast.makeText(TunerActivity.this, "Wybrano standard " + notes[0], Toast.LENGTH_SHORT).show();
                         Notes.fillNotesStandard();
                         for (int i = 0; i < notes.length; i++) {
                             strings[i].setText(notes[i]);
@@ -87,7 +85,6 @@ public class TunerActivity extends Activity {
                         break;
                     }
                     case 1: {
-                        Toast.makeText(TunerActivity.this, "Wybrano Drop D " + notes[0], Toast.LENGTH_SHORT).show();
                         Notes.fillNotesDropD();
                         for (int i = 0; i < notes.length; i++) {
                             strings[i].setText(notes[i]);
@@ -95,7 +92,6 @@ public class TunerActivity extends Activity {
                         break;
                     }
                     case 2: {
-                        Toast.makeText(TunerActivity.this, "Wybrano E-Flat " + notes[0], Toast.LENGTH_SHORT).show();
                         Notes.fillNotesEFlat();
                         for (int i = 0; i < notes.length; i++) {
                             strings[i].setText(notes[i]);
@@ -112,7 +108,6 @@ public class TunerActivity extends Activity {
                             public void onClick(View view) {
                                 autoTuneSwitch.setChecked(false);
                                 frequencyReq = Integer.parseInt(Notes.getArray().get(finalI)[1]);
-                                Toast.makeText(TunerActivity.this, "Struna wymaga: " + frequencyReq, Toast.LENGTH_SHORT).show();
 
                                 closeThread();
                                 stringsBack[finalI].setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -215,7 +210,7 @@ public class TunerActivity extends Activity {
 
     public void clearStringsColor() {
         for (int i = 0; i < stringsBack.length; i++) {
-            stringsBack[i].setBackgroundColor(getResources().getColor(R.color.textDark));
+            stringsBack[i].setBackgroundColor(getResources().getColor(R.color.greyBackground));
         }
     }
 
@@ -225,7 +220,7 @@ public class TunerActivity extends Activity {
         String[] array = Notes.getNote(String.valueOf(pitchInHz));
         if (array != null) {
             stringsBack[Notes.positionOfString(array[0])].setBackgroundColor(getResources().getColor(R.color.colorAccent));
-
+//            strings[Notes.positionOfString(array[0])].setTextColor(getResources().getColor(R.color.colorAccent));
             if (Float.parseFloat(array[1]) > 0) {
                 pitchText.setText("+" + array[1]);
             }else {

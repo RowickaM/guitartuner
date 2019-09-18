@@ -35,4 +35,6 @@
     <string name="start_string">Do poprawnego działania aplikacji wymagane są następujące pozwolenia:</string>
     <string name="subtract">-</string>
     <string name="add">+</string>
+    <string name="tuner">Stroik</string>
+    <string name="metronome">Metronom</string>
 </resources>
