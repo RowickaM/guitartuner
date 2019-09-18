@@ -1,11 +1,8 @@
 package com.rowicka.gitartuner.tuner;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -14,7 +11,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.rowicka.gitartuner.R;
+import com.rowicka.gitartuner.utility.NavigationBottom;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
@@ -26,7 +26,7 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 
 //todo zmiana wyglądu dla spinnera !!!
 
-public class TunerActivity extends AppCompatActivity {
+public class TunerActivity extends Activity {
 
 
     private Thread audioThread;
@@ -36,7 +36,6 @@ public class TunerActivity extends AppCompatActivity {
     ConstraintLayout[] stringsBack;
 
     int frequencyReq = 0;
-    boolean isCorrect = false;
 
 
     @Override
@@ -44,9 +43,11 @@ public class TunerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tuner);
 
-        final Switch autoTuneSwitch = (Switch) findViewById(R.id.autoTune);
+        new NavigationBottom(this);
 
+        final Switch autoTuneSwitch = (Switch) findViewById(R.id.autoTune);
         final Spinner spinner = (Spinner) findViewById(R.id.spinnerTuner);
+
         strings = new TextView[]{
                 (TextView) findViewById(R.id.stringText1),
                 (TextView) findViewById(R.id.stringText2),
@@ -231,6 +232,8 @@ public class TunerActivity extends AppCompatActivity {
                 pitchText.setText(array[1]);
             }
 
+        }else{
+            pitchText.setText(" ");
         }
     }
 

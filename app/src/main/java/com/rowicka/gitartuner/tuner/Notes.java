@@ -98,7 +98,6 @@ public class Notes {
                 }
             }
         }
-        //todo zastanowić się jak pokazać ile brakuje do strojenia (czy w góre czy w dół)
         return null;
     }
 

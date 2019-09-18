@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Guitar Tuner</string>
-    <string name="start_string">Do poprawnego działania aplikacji wymagane są następujące pozwolenia:</string>
     <array name="permissions">
         <item>mikrofon</item>
         <item>internet</item>
@@ -10,4 +8,31 @@
         <item>D G C F A D</item>
         <item>Eb G# C# F# Bb Eb</item>
     </array>
+    <array name="beat">
+        <item>1/4</item>
+        <item>2/4</item>
+        <item>3/4</item>
+        <item>4/4</item>
+        <item>5/4</item>
+        <item>7/4</item>
+        <item>5/8</item>
+        <item>6/8</item>
+        <item>7/8</item>
+        <item>9/8</item>
+        <item>12/8</item>
+    </array>
+    <array name="tap">
+        <item>LARGO</item>
+        <item>LARGHETTO</item>
+        <item>ADAGIO</item>
+        <item>ANDANTE</item>
+        <item>MODERATO</item>
+        <item>ALLEGRO</item>
+        <item>PRESTO</item>
+        <item>PRESTISSIMO</item>
+    </array>
+    <string name="app_name">Guitar Tuner</string>
+    <string name="start_string">Do poprawnego działania aplikacji wymagane są następujące pozwolenia:</string>
+    <string name="subtract">-</string>
+    <string name="add">+</string>
 </resources>

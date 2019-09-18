@@ -3,6 +3,7 @@ package com.rowicka.gitartuner;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,23 +16,25 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.rowicka.gitartuner.metronome.MetronomeActivity;
 import com.rowicka.gitartuner.tuner.TunerActivity;
 import com.rowicka.gitartuner.utility.AudioPermission;
+import com.rowicka.gitartuner.utility.BeatsPoints;
 
 
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView list = (ListView) findViewById(R.id.listView);
-        String permissions[] = getResources().getStringArray(R.array.permissions);
 
-        ArrayList<String> permissionsL = new ArrayList<String>();
-        permissionsL.addAll( Arrays.asList(permissions) );
+
+        ListView list = (ListView) findViewById(R.id.listView);
+        String[] permissions = getResources().getStringArray(R.array.permissions);
+
+        ArrayList<String> permissionsL = new ArrayList<String>(Arrays.asList(permissions));
 
         ArrayAdapter<String> adapter;
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, permissionsL);
@@ -47,7 +50,10 @@ public class MainActivity extends AppCompatActivity {
         final Context context = this;
 
         if (AudioPermission.checkPermissions(context)){
-            Intent intent = new Intent(context, TunerActivity.class);
+
+//            Intent intent = new Intent(context, TunerActivity.class);
+//            Intent intent = new Intent(context, BeatsPoints.class);
+            Intent intent = new Intent(context, MetronomeActivity.class);
             startActivity(intent);
         }
 
@@ -56,18 +62,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AudioPermission.checkPermissions(context);
                 if (AudioPermission.checkPermissions(context)){
-                    //todo przekierowanie do innej aktywności
-                    Intent intent = new Intent(context, TunerActivity.class);
+
+//                    Intent intent = new Intent(context, TunerActivity.class);
+//                    Intent intent = new Intent(context, BeatsPoints.class);
+                    Intent intent = new Intent(context, MetronomeActivity.class);
                     startActivity(intent);
                 }
             }
         });
     }
 
-    //todo 3,5 wykonać menu dolne
-    //todo 4 aktywność z mentronoma
-    //todo 5 możliwość zmiany tempa
-    //todo 6 dodać pykanie w danym tempie i nowa "seria" oznacza się źwiękiem
+
     //todo 7 skupić się na wyglądzie
     //todo 8 może nauka tabów??
 
@@ -77,7 +82,10 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == AudioPermission.RECORD_AUDIO){
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 Toast.makeText(this, "Pozwolenia nadano", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, TunerActivity.class);
+
+//                Intent intent = new Intent(this, TunerActivity.class);
+//                Intent intent = new Intent(this, BeatsPoints.class);
+                Intent intent = new Intent(this, MetronomeActivity.class);
                 startActivity(intent);
 //            }else {
 //                Toast.makeText(this, "Pozwolenia nie nadano", Toast.LENGTH_SHORT).show();
