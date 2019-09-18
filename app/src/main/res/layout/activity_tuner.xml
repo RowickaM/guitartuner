@@ -17,163 +17,196 @@
             android:id="@+id/pitchText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="45dp"
+            android:paddingBottom="0dp"
             android:text="@string/app_name"
             android:textAlignment="center"
             android:textColor="@color/text"
-            android:textSize="25sp"
+            android:textSize="24sp"
             tools:layout_editor_absoluteX="176dp"
             tools:layout_editor_absoluteY="170dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="400dp"
+            android:layout_marginBottom="45dp"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:gravity="right"
+                android:layout_width="130dp"
+                android:layout_height="300dp"
+                android:gravity="right|center_vertical"
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/string3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="15dp"
-                    android:background="@color/greyBackground">
+                    android:background="@drawable/ic_circle_yellow">
 
                     <TextView
                         android:id="@+id/stringText3"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:paddingTop="5sp"
                         android:paddingBottom="5sp"
-                        android:text="D"
-                        android:textColor="@color/text" />
+                        android:text="D#"
+                        android:textAlignment="center"
+                        android:textColor="@color/text"
+                        android:textSize="20sp"
+                        tools:ignore="MissingConstraints" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/string2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="15dp"
-                    android:background="@color/greyBackground">
+                    android:background="@drawable/ic_circle_yellow">
 
                     <TextView
                         android:id="@+id/stringText2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:paddingTop="5sp"
                         android:paddingBottom="5sp"
-                        android:text="A"
-                        android:textColor="@color/text" />
+                        android:text="D#"
+                        android:textAlignment="center"
+                        android:textColor="@color/text"
+                        android:textSize="20sp"
+                        tools:ignore="MissingConstraints" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/string1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="15dp"
-                    android:background="@color/greyBackground">
+                    android:background="@drawable/ic_circle_yellow">
 
                     <TextView
                         android:id="@+id/stringText1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:paddingTop="5sp"
                         android:paddingBottom="5sp"
-                        android:text="E"
-                        android:textColor="@color/text" />
+                        android:text="D#"
+                        android:textAlignment="center"
+                        android:textColor="@color/text"
+                        android:textSize="20sp"
+                        tools:ignore="MissingConstraints" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="336dp"
-                android:layout_height="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp"
                 android:layout_weight="1"
                 android:src="@mipmap/ic_guitar_foreground" />
 
             <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="98dp"
+                android:layout_height="300dp"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
+
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/string4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="15dp"
-                    android:background="@color/greyBackground">
+                    android:background="@drawable/ic_circle_yellow">
 
                     <TextView
                         android:id="@+id/stringText4"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:paddingTop="5sp"
                         android:paddingBottom="5sp"
-                        android:text="G"
-                        android:textColor="@color/text" />
+                        android:text="D#"
+                        android:textAlignment="center"
+                        android:textColor="@color/text"
+                        android:textSize="20sp"
+                        tools:ignore="MissingConstraints" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/string5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="15dp"
-                    android:background="@color/greyBackground">
+                    android:background="@drawable/ic_circle_yellow">
 
                     <TextView
                         android:id="@+id/stringText5"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:paddingTop="5sp"
                         android:paddingBottom="5sp"
-                        android:text="H"
-                        android:textColor="@color/text" />
+                        android:text="D#"
+                        android:textAlignment="center"
+                        android:textColor="@color/text"
+                        android:textSize="20sp"
+                        tools:ignore="MissingConstraints" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/string6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="15dp"
-                    android:background="@color/greyBackground">
+                    android:background="@drawable/ic_circle_yellow">
 
                     <TextView
                         android:id="@+id/stringText6"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:paddingTop="5sp"
                         android:paddingBottom="5sp"
-                        android:text="e"
-                        android:textColor="@color/text" />
+                        android:text="D#"
+                        android:textAlignment="center"
+                        android:textColor="@color/text"
+                        android:textSize="20sp"
+                        tools:ignore="MissingConstraints" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
+
+            <Switch
+                android:id="@+id/autoTune"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Auto"
+                android:textColor="@color/text"
+                android:textSize="24sp" />
 
             <Spinner
                 android:id="@+id/spinnerTuner"
-                android:layout_width="match_parent"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:entries="@array/tune"
                 android:spinnerMode="dialog"
                 android:textAlignment="center" />
 
-            <Switch
-                android:id="@+id/autoTune"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="Auto"
-                android:textColor="@color/text" />
         </LinearLayout>
 
     </LinearLayout>

@@ -27,7 +27,7 @@
 
             <Button
                 android:id="@+id/btnLowSpeed"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/ic_circle_grey"
@@ -47,7 +47,7 @@
 
             <Button
                 android:id="@+id/btnHighSpeed"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/ic_circle_grey"

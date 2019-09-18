@@ -72,8 +72,6 @@ public class MainActivity extends Activity {
         });
     }
 
-
-    //todo 7 skupić się na wyglądzie
     //todo 8 może nauka tabów??
 
 
