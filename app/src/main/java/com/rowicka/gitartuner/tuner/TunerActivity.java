@@ -1,7 +1,13 @@
 package com.rowicka.gitartuner.tuner;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
-import android.graphics.Color;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,11 +15,14 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.rowicka.gitartuner.R;
 import com.rowicka.gitartuner.utility.NavigationBottom;
+import com.rowicka.gitartuner.utility.Permission;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
@@ -24,8 +33,7 @@ import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
 
 public class TunerActivity extends Activity {
-
-
+    Permission permission;
     private Thread audioThread;
     private AudioDispatcher dispatcher;
 
@@ -33,8 +41,6 @@ public class TunerActivity extends Activity {
     ConstraintLayout[] stringsBack;
 
     int frequencyReq = 0;
-
-
     private int[] correctSeq;
 
     @Override
@@ -42,6 +48,8 @@ public class TunerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tuner);
 
+        permission = new Permission(this);
+        permission.permissions();
         new NavigationBottom(this);
 
         final Switch autoTuneSwitch = (Switch) findViewById(R.id.autoTune);
@@ -68,7 +76,7 @@ public class TunerActivity extends Activity {
                 (ConstraintLayout) findViewById(R.id.string6)
         };
 
-        correctSeq = new int[]{0,1,0,0,0,1};
+        correctSeq = new int[]{1, 1, 1, 1, 1, 1};
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -133,8 +141,6 @@ public class TunerActivity extends Activity {
             }
         });
 
-
-
         autoTuneSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -147,6 +153,7 @@ public class TunerActivity extends Activity {
                 }
             }
         });
+
 
     }
 
@@ -177,7 +184,13 @@ public class TunerActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        for (int i = 0; i < correctSeq.length; i++) {
+                            if (correctSeq[i] == 1) {
+                                setChoosenAndCorect(i);
+                            }
+                        }
                         processPitch(pitchInHz);
+
                     }
                 });
             }
@@ -201,7 +214,13 @@ public class TunerActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        for (int i = 0; i < correctSeq.length; i++) {
+                            if (correctSeq[i] == 1) {
+                                setChoosenAndCorect(i);
+                            }
+                        }
                         process(pitchInHz, position);
+
 //                        if (Math.abs(frequencyReq - pitchInHz) == 0)
 //                            stringsBack[position].setBackgroundColor(Color.GREEN);
                     }
@@ -223,24 +242,24 @@ public class TunerActivity extends Activity {
         }
     }
 
-    public void setChoosenAndCorect(int position){
+    public void setChoosenAndCorect(int position) {
         stringsBack[position].setBackground(getResources().getDrawable(R.drawable.ic_circle_yellow_green));
         strings[position].setTextColor(getResources().getColor(R.color.text));
         correctSeq[position] = 1;
     }
 
-    public void setNotChoosenAndCorect(int position){ //todo zostawić te które są pooprawne po zaznaczeniu lub znacznej zmianie
+    public void setNotChoosenAndCorect(int position) { //todo zostawić te które są pooprawne po zaznaczeniu lub znacznej zmianie
         stringsBack[position].setBackground(getResources().getDrawable(R.drawable.ic_circle_green));
         strings[position].setTextColor(getResources().getColor(R.color.green));
     }
 
-    public void setChoosenAndNotCorect(int position){
+    public void setChoosenAndNotCorect(int position) {
         stringsBack[position].setBackground(getResources().getDrawable(R.drawable.ic_circle_accent));
         strings[position].setTextColor(getResources().getColor(R.color.colorAccent));
         correctSeq[position] = 0;
     }
 
-    public void setNotChoosenAndNotCorect(int position){
+    public void setNotChoosenAndNotCorect(int position) {
         stringsBack[position].setBackground(getResources().getDrawable(R.drawable.ic_circle_yellow));
         strings[position].setTextColor(getResources().getColor(R.color.text));
     }
@@ -250,40 +269,38 @@ public class TunerActivity extends Activity {
         String[] array = Notes.getNote(String.valueOf(pitchInHz));
         if (array != null) {
 
-            if (Float.parseFloat(array[1]) == 0){
+            if (Float.parseFloat(array[1]) == 0) {
                 pitchText.setText(array[1]);
                 setChoosenAndCorect(Notes.positionOfString(array[0]));
-            }else{
+            } else {
                 setChoosenAndNotCorect(Notes.positionOfString(array[0]));
                 if (pitchInHz - frequencyReq > 0) {
                     pitchText.setText(array[1]);
-                }
-                else {
-                    pitchText.setText("+"+array[1]);
+                } else {
+                    pitchText.setText("+" + array[1]);
                 }
             }
 
-        }else{
+        } else {
             pitchText.setText(" ");
         }
     }
 
-    public void process(float pitchInHz, int position){
+    public void process(float pitchInHz, int position) {
         TextView pitchText = (TextView) findViewById(R.id.pitchText);
 
         if ((pitchInHz > -1.0)) {
             int diff = (int) (pitchInHz - frequencyReq);
 
-            if (diff == 0){
+            if (diff == 0) {
                 pitchText.setText(diff);
                 setChoosenAndCorect(position);
-            }else{
+            } else {
                 setChoosenAndNotCorect(position);
                 if (pitchInHz - frequencyReq > 0) {
                     pitchText.setText(diff);
-                }
-                else {
-                    pitchText.setText("+"+diff);
+                } else {
+                    pitchText.setText("+" + diff);
                 }
             }
 
@@ -292,4 +309,36 @@ public class TunerActivity extends Activity {
         }
 
     }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 101) {
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    if (shouldShowRequestPermissionRationale(permissions[i])) {
+                        new AlertDialog.Builder(this)
+                                .setMessage("Nie nadano wszystkich potrzebnych pozwoleń")
+                                .setPositiveButton("Ponów", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        permission.requestMultiplePermissions();
+                                    }
+                                })
+                                .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .create().show();
+                    }
+                    return;
+                }
+            }
+            //all good
+        }
+    }
+
 }

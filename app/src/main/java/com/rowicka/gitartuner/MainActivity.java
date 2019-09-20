@@ -1,35 +1,43 @@
 package com.rowicka.gitartuner;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.rowicka.gitartuner.metronome.MetronomeActivity;
 import com.rowicka.gitartuner.tuner.TunerActivity;
-import com.rowicka.gitartuner.utility.AudioPermission;
-import com.rowicka.gitartuner.utility.BeatsPoints;
+import com.rowicka.gitartuner.utility.Permission;
 
 
 public class MainActivity extends Activity {
+
+    //todo nagrać i zapisać dźwięk w plikach tymczasowych
+    //todo wysłać dźwięk na firebase
+    //todo wykonać zapytanie do api
+    //todo odczytać dane z odpowiedzi api
+    //todo wyświetlić dane z odpowiedzi api
+    //todo zrobić linki do yt albo coś takiego (może)
+
+    Permission permission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         ListView list = (ListView) findViewById(R.id.listView);
         String[] permissions = getResources().getStringArray(R.array.permissions);
@@ -46,48 +54,53 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        permission = new Permission(this);
+
         Button permissionGrantedButton = (Button) findViewById(R.id.permissionButton);
-        final Context context = this;
 
-        if (AudioPermission.checkPermissions(context)){
-
-            Intent intent = new Intent(context, TunerActivity.class);
-//            Intent intent = new Intent(context, BeatsPoints.class);
-//            Intent intent = new Intent(context, MetronomeActivity.class);
-            startActivity(intent);
+        //sprawdza czy zostały nadane już pozwolenia
+        permission.permissions();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && permission.arePermissionsEnabled()){
+            startActivity(new Intent(this, TunerActivity.class));
         }
 
         permissionGrantedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AudioPermission.checkPermissions(context);
-                if (AudioPermission.checkPermissions(context)){
-
-                    Intent intent = new Intent(context, TunerActivity.class);
-//                    Intent intent = new Intent(context, BeatsPoints.class);
-//                    Intent intent = new Intent(context, MetronomeActivity.class);
-                    startActivity(intent);
-                }
+                permission.permissions();
             }
         });
     }
 
-    //todo 8 może nauka tabów??
 
-
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == AudioPermission.RECORD_AUDIO){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this, "Pozwolenia nadano", Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(this, TunerActivity.class);
-//                Intent intent = new Intent(this, BeatsPoints.class);
-//                Intent intent = new Intent(this, MetronomeActivity.class);
-                startActivity(intent);
-//            }else {
-//                Toast.makeText(this, "Pozwolenia nie nadano", Toast.LENGTH_SHORT).show();
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 101) {
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    if (shouldShowRequestPermissionRationale(permissions[i])) {
+                        new AlertDialog.Builder(this)
+                                .setMessage("Nie nadano wszystkich potrzebnych pozwoleń")
+                                .setPositiveButton("Ponów", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        permission.requestMultiplePermissions();
+                                    }
+                                })
+                                .setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .create().show();
+                    }
+                    return;
+                }
             }
+            startActivity(new Intent(this, TunerActivity.class));
         }
     }
 }
