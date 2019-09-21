@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,16 +23,12 @@ import com.rowicka.gitartuner.utility.Permission;
 
 
 public class MainActivity extends Activity {
-
-    //todo nagrać i zapisać dźwięk w plikach tymczasowych
-    //todo wysłać dźwięk na firebase
-    //todo wykonać zapytanie do api
-    //todo odczytać dane z odpowiedzi api
-    //todo wyświetlić dane z odpowiedzi api
-    //todo zrobić linki do yt albo coś takiego (może)
-
     Permission permission;
 
+    //todo stworzyć grupy akordów w zależności od trudności
+    //todo stworzyć aktywności logowania
+    //todo dla każdego użytkownika inny postęp
+    //todo wyświetlam dany schemat i kazuje pociągnąć po kolei strune
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

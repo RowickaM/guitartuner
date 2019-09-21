@@ -9,16 +9,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rowicka.gitartuner.R;
+import com.rowicka.gitartuner.learning.BasicLearningActivity;
+import com.rowicka.gitartuner.learning.ListOfChordsActivity;
+import com.rowicka.gitartuner.learning.ShowChordActivity;
 import com.rowicka.gitartuner.metronome.MetronomeActivity;
-import com.rowicka.gitartuner.recognize.RecognizeActivity;
 import com.rowicka.gitartuner.tuner.TunerActivity;
 
 
 public class NavigationBottom {
 
     Activity act;
+    boolean click = true;
 
     public NavigationBottom(final Activity activity) {
         act = activity;
@@ -52,48 +56,52 @@ public class NavigationBottom {
             }
         });
 
+
         toMusicReq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!act.getClass().equals(RecognizeActivity.class)) {
-                    act.startActivity(new Intent(act, RecognizeActivity.class));
+                if (!act.getClass().equals(BasicLearningActivity.class)) {
+                    act.startActivity(new Intent(act, BasicLearningActivity.class));
                 }
             }
         });
 
-        if (act.getClass().equals(TunerActivity.class)){
+        if (act.getClass().equals(TunerActivity.class)) {
 //            tuner
-            setColor(activity,textTuner,imgTuner,R.drawable.ic_tuner_color);
+            setColor(activity, textTuner, imgTuner, R.drawable.ic_tuner_color);
 //            metronome
-            setUnColor(activity,textMetro,imgMetro,R.drawable.ic_metronome);
+            setUnColor(activity, textMetro, imgMetro, R.drawable.ic_metronome);
             //microphone
-            setUnColor(activity,textMusicReq,imgMusicReq,R.drawable.ic_microphone);
+            setUnColor(activity, textMusicReq, imgMusicReq, R.drawable.ic_microphone);
 
 
-        }else if (act.getClass().equals(MetronomeActivity.class)){
+        } else if (act.getClass().equals(MetronomeActivity.class)) {
 //            tuner
-            setUnColor(activity,textTuner,imgTuner,R.drawable.ic_tuner);
+            setUnColor(activity, textTuner, imgTuner, R.drawable.ic_tuner);
 //            metronome
-            setColor(activity,textMetro,imgMetro,R.drawable.ic_metronome_color);
+            setColor(activity, textMetro, imgMetro, R.drawable.ic_metronome_color);
             //microphone
-            setUnColor(activity,textMusicReq,imgMusicReq,R.drawable.ic_microphone);
-        }else if (act.getClass().equals(RecognizeActivity.class)){
+            setUnColor(activity, textMusicReq, imgMusicReq, R.drawable.ic_microphone);
+        } else if (act.getClass().equals(BasicLearningActivity.class)
+                || act.getClass().equals(ListOfChordsActivity.class)
+                || act.getClass().equals(ShowChordActivity.class)) {
 //            tuner
-            setUnColor(activity,textTuner,imgTuner,R.drawable.ic_tuner);
+            setUnColor(activity, textTuner, imgTuner, R.drawable.ic_tuner);
 //            metronome
-            setUnColor(activity,textMetro,imgMetro,R.drawable.ic_metronome);
+            setUnColor(activity, textMetro, imgMetro, R.drawable.ic_metronome);
             //microphone
-            setColor(activity,textMusicReq,imgMusicReq,R.drawable.ic_microphone_color);
+            setColor(activity, textMusicReq, imgMusicReq, R.drawable.ic_microphone_color);
 
         }
 
     }
 
-    private void setColor(Activity activity, TextView textView, ImageView imgView, int drawable){
+    private void setColor(Activity activity, TextView textView, ImageView imgView, int drawable) {
         imgView.setImageDrawable(activity.getResources().getDrawable(drawable));
         textView.setTextColor(Color.WHITE);
     }
-    private void setUnColor(Activity activity, TextView textView, ImageView imgView, int drawable){
+
+    private void setUnColor(Activity activity, TextView textView, ImageView imgView, int drawable) {
         imgView.setImageDrawable(activity.getResources().getDrawable(drawable));
         textView.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
     }

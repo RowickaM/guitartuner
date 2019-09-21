@@ -27,17 +27,18 @@
 
             <Button
                 android:id="@+id/btnLowSpeed"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="150px"
+                android:layout_height="150px"
                 android:layout_weight="1"
-                android:background="@drawable/ic_circle_grey"
+                android:background="@android:color/transparent"
                 android:text="@string/subtract"
                 android:textColor="@color/text"
-                android:textSize="24sp" />
+                android:textSize="36sp" />
 
             <TextView
                 android:id="@+id/tapText"
-                android:layout_width="300dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -47,13 +48,14 @@
 
             <Button
                 android:id="@+id/btnHighSpeed"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="150px"
+                android:layout_height="120px"
                 android:layout_weight="1"
-                android:background="@drawable/ic_circle_grey"
+                android:background="@android:color/transparent"
                 android:text="@string/add"
                 android:textColor="@color/text"
-                android:textSize="24sp" />
+                android:textSize="36sp" />
 
         </LinearLayout>
 
