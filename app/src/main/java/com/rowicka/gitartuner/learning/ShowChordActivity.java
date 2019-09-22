@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.rowicka.gitartuner.R;
 import com.rowicka.gitartuner.learning.chord.Chord;
 import com.rowicka.gitartuner.utility.NavigationBottom;
+import com.rowicka.gitartuner.utility.NavigationTop;
 import com.rowicka.gitartuner.utility.Permission;
 
 import be.tarsos.dsp.AudioDispatcher;
@@ -33,8 +34,8 @@ public class ShowChordActivity extends Activity {
     Permission permission;
     private Thread audioThread;
     private AudioDispatcher dispatcher;
-//    private int[] correctSeq = {0, 0, 0, 0, 0, 0};
-    private int[] correctSeq = {1,1,1,1,1,1};
+    private int[] correctSeq = {0, 0, 0, 0, 0, 0};
+//    private int[] correctSeq = {1,1,1,1,1,1};
     private int progress;
     private int isLearning = 1;
 
@@ -50,7 +51,9 @@ public class ShowChordActivity extends Activity {
 
         permission = new Permission(this);
         permission.permissions();
+
         new NavigationBottom(this);
+        new NavigationTop(this);
 
         nameChord = (TextView) findViewById(R.id.chordName);
         schemaChord = (ImageView) findViewById(R.id.chordSchema);

@@ -13,6 +13,7 @@ import com.rowicka.gitartuner.R;
 import com.rowicka.gitartuner.learning.chords.Chords;
 import com.rowicka.gitartuner.learning.chords.ChordsAdapter;
 import com.rowicka.gitartuner.utility.NavigationBottom;
+import com.rowicka.gitartuner.utility.NavigationTop;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,7 @@ public class ListOfChordsActivity extends Activity {
         setContentView(R.layout.activity_basic_learning);
 
         new NavigationBottom(this);
+        new NavigationTop(this);
 
 
         listView = (ListView) findViewById(R.id.chordsGroupList);

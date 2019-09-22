@@ -7,6 +7,14 @@
     android:orientation="vertical"
     tools:context=".learning.BasicLearningActivity">
 
+    <include
+        android:id="@+id/top_nav"
+        layout="@layout/top_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:gravity="top" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

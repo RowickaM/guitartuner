@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="30dp"
+    tools:context=".profile.RegistrationActivity">
+
+    <EditText
+        android:id="@+id/loginSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:hint="E-mail"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/passwordSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Hasło"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/passwordRepeatSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Powtórz hasło"
+        android:inputType="textPassword"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Zarejestruj się"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/toLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/loginText"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
+</LinearLayout>

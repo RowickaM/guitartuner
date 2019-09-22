@@ -43,4 +43,6 @@
     <string name="album">Album</string>
     <string name="author">Autor</string>
     <string name="title">Tytuł</string>
+    <string name="registrationText">Nie posiadasz konta? Zarejestruj się tutaj</string>
+    <string name="loginText">Posiadasz już konto? Zaloguj się tutaj</string>
 </resources>

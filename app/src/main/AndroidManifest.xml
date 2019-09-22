@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_guitar_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.NoActionBar.Fullscreen">
-        <activity android:name=".profile.LoginActivity"></activity>
+        <activity android:name=".profile.RegistrationActivity"></activity>
+        <activity android:name=".profile.LoginActivity" />
         <activity android:name=".learning.ShowChordActivity" />
-        <activity android:name=".TestActivity" />
         <activity
             android:name=".learning.BasicLearningActivity"
             android:screenOrientation="portrait" />
@@ -37,8 +37,8 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
 </manifest>
