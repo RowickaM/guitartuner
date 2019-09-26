@@ -108,6 +108,11 @@ public class MetronomeActivity extends Activity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
+
     private void changeBpm(double newBpm) {
         this.bpm = newBpm;
         bpmView.setText(String.valueOf(newBpm));

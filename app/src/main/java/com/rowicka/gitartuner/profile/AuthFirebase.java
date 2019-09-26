@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.rowicka.gitartuner.R;
+import com.rowicka.gitartuner.collections.leaderboard.LeaderboardCollection;
+import com.rowicka.gitartuner.collections.user.UsersCollection;
 import com.rowicka.gitartuner.learning.BasicLearningActivity;
 
 public class AuthFirebase {
@@ -83,6 +88,7 @@ public class AuthFirebase {
             dialog.setCancelable(false);
             dialog.show();
 
+            final String finalEmail = email;
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -91,6 +97,15 @@ public class AuthFirebase {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("Registration", "createUserWithEmail:success");
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                                UsersCollection uc = new UsersCollection(user.getUid());
+                                    uc.addUser(
+                                            user.getUid(),
+                                            finalEmail);
+
+                                LeaderboardCollection lc = new LeaderboardCollection(user.getUid());
+                                lc.createDocument();
+
                                 updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.

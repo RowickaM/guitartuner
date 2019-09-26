@@ -22,14 +22,5 @@
             android:textColor="@color/text"
             android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/progressChordTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textColor="@color/green"
-            android:textSize="18sp" />
     </LinearLayout>
 </LinearLayout>

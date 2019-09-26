@@ -27,30 +27,49 @@
 
             <TextView
                 android:id="@+id/chordName"
-                android:layout_width="wrap_content"
+                android:layout_width="115dp"
                 android:layout_height="wrap_content"
-                android:text="Nazwa akordu"
+                android:text="QQQQQQQ"
                 android:textAlignment="center"
                 android:textColor="@color/text"
                 android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/progress"
+            <Chronometer
+                android:id="@+id/stopWatchView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="próba 1/4"
-                android:textAlignment="textEnd"
-                android:textColor="@color/green"
-                android:textSize="18sp" />
+                android:gravity="center"
+                android:text="time"
+                android:textAlignment="center"
+                android:textColor="@color/text"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/chordSchema"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back"/>
+            android:layout_height="300dp"
+            android:background="@color/greyBackground"
+            android:src="@drawable/back" />
+
+        <LinearLayout
+            android:id="@+id/layoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/showSchemaBtn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@color/green"
+                android:text="Button" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

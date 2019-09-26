@@ -1,12 +1,14 @@
 package com.rowicka.gitartuner.learning.chordsGroup;
 
-public class ChordsGroup {
-        String name, include, progress;
+import java.sql.DataTruncation;
 
-    public ChordsGroup(String name, String include, String progress) {
+public class ChordsGroup {
+    private String name;
+    private String[] include;
+
+    public ChordsGroup(String name, String include) {
         this.name = name;
-        this.include = include;
-        this.progress = progress;
+        this.include=include.split(";");
     }
 
     public String getName() {
@@ -17,19 +19,12 @@ public class ChordsGroup {
         this.name = name;
     }
 
-    public String getInclude() {
+    public String[] getInclude() {
         return include;
     }
 
-    public void setInclude(String include) {
+    public void setInclude(String[] include) {
         this.include = include;
     }
 
-    public String getProgress() {
-        return progress;
-    }
-
-    public void setProgress(String progress) {
-        this.progress = progress;
-    }
 }

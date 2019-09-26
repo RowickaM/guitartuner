@@ -43,8 +43,14 @@ public class ChordsGroupAdapter extends ArrayAdapter<ChordsGroup> {
 
         TextView name = (TextView) listItem.findViewById(R.id.nameGroupTV);
         name.setText(chordsGroupCurrent.getName());
-        TextView progress = (TextView) listItem.findViewById(R.id.progressTV);
-        progress.setText(chordsGroupCurrent.getProgress());
+
+        TextView set = (TextView) listItem.findViewById(R.id.includeTV);
+        StringBuilder sb = new StringBuilder();
+        for (String str: chordsGroupCurrent.getInclude()){
+            sb.append(str);
+            sb.append(" ");
+        }
+        set.setText(sb.toString());
 
         return listItem;
 

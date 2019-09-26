@@ -41,8 +41,6 @@ public class ChordsAdapter extends ArrayAdapter<Chords> {
 
         TextView name = (TextView) listItem.findViewById(R.id.nameChordTV);
         name.setText(chordsCurrent.getName());
-        TextView progress = (TextView) listItem.findViewById(R.id.progressChordTV);
-        progress.setText(chordsCurrent.getProgress());
 
         return listItem;
 

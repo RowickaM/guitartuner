@@ -1,11 +1,10 @@
 package com.rowicka.gitartuner.learning.chords;
 
 public class Chords {
-    private String name, progress;
+    private String name;
 
-    public Chords(String name, String progress) {
+    public Chords(String name) {
         this.name = name;
-        this.progress = progress;
     }
 
     public String getName() {
@@ -16,11 +15,4 @@ public class Chords {
         this.name = name;
     }
 
-    public String getProgress() {
-        return progress;
-    }
-
-    public void setProgress(String progress) {
-        this.progress = progress;
-    }
 }

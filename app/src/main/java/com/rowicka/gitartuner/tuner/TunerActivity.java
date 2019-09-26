@@ -22,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.rowicka.gitartuner.R;
+import com.rowicka.gitartuner.collections.chords.ChordsCollection;
+import com.rowicka.gitartuner.collections.user.UsersCollection;
 import com.rowicka.gitartuner.learning.BasicLearningActivity;
 import com.rowicka.gitartuner.utility.NavigationBottom;
 import com.rowicka.gitartuner.utility.Permission;
@@ -349,4 +351,8 @@ public class TunerActivity extends Activity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

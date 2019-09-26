@@ -46,7 +46,6 @@ public class Permission {
     public void requestMultiplePermissions(){
         List<String> remainingPermissions = new ArrayList<>();
         for (String permission : permissions) {
-            Log.d("Permission", permission);
             if (activity.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
                 remainingPermissions.add(permission);
             }

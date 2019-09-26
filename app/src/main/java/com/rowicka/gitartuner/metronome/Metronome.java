@@ -32,7 +32,6 @@ public class Metronome implements Runnable {
 
     }
     public void stopMetronome(){
-        Log.d("MetronomeSound","Stop");
         this.start = false;
         this.counter=0;
 
@@ -83,7 +82,6 @@ public class Metronome implements Runnable {
 
     @Override
     public void run() {
-        Log.d("MetronomeSound","Start");
         this.start = true;
         this.bp = new BeatsPoints(activity);
         while (start){

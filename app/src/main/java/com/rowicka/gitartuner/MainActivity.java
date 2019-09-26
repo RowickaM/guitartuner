@@ -18,6 +18,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.rowicka.gitartuner.collections.chords.ChordsCollection;
+import com.rowicka.gitartuner.collections.leaderboard.LeaderboardCollection;
 import com.rowicka.gitartuner.tuner.TunerActivity;
 import com.rowicka.gitartuner.utility.Permission;
 
@@ -25,10 +27,7 @@ import com.rowicka.gitartuner.utility.Permission;
 public class MainActivity extends Activity {
     Permission permission;
 
-    //todo stworzyć grupy akordów w zależności od trudności
-    //todo stworzyć aktywności logowania
-    //todo dla każdego użytkownika inny postęp
-    //todo wyświetlam dany schemat i kazuje pociągnąć po kolei strune
+    //todo wyświetlam dany schemat i kazuje pociągnąć po kolei struny - moze?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +42,6 @@ public class MainActivity extends Activity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, permissionsL);
 
         list.setAdapter(adapter);
-
     }
 
     @Override
