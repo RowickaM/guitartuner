@@ -141,7 +141,10 @@ public class ShowChordActivity extends Activity {
                         getPitch();
                     }
                 } else {
+                    finish();
+                    overridePendingTransition(0, 0);
                     startActivity(new Intent(ShowChordActivity.this, LoginActivity.class));
+                    overridePendingTransition(0, 0);
                 }
             }
 
@@ -324,7 +327,10 @@ public class ShowChordActivity extends Activity {
                     if (keys != null) {
                         intent.putExtra("keys", keys);
                         intent.putExtra("group", nameGroup);
+                        finish();
+                        overridePendingTransition(0, 0);
                         startActivity(intent);
+                        overridePendingTransition(0, 0);
                     }
                 }
             }

@@ -54,7 +54,10 @@ public class MainActivity extends Activity {
         //sprawdza czy zostały nadane już pozwolenia
         permission.permissions();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && permission.arePermissionsEnabled()){
+            finish();
+            overridePendingTransition(0, 0);
             startActivity(new Intent(this, TunerActivity.class));
+            overridePendingTransition(0, 0);
         }
 
         permissionGrantedButton.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +96,10 @@ public class MainActivity extends Activity {
                     return;
                 }
             }
+            finish();
+            overridePendingTransition(0, 0);
             startActivity(new Intent(this, TunerActivity.class));
+            overridePendingTransition(0, 0);
         }
     }
 }

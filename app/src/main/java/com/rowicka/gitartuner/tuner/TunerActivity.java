@@ -1,15 +1,12 @@
 package com.rowicka.gitartuner.tuner;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -17,17 +14,11 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.rowicka.gitartuner.R;
-import com.rowicka.gitartuner.collections.chords.ChordsCollection;
-import com.rowicka.gitartuner.collections.user.UsersCollection;
-import com.rowicka.gitartuner.learning.BasicLearningActivity;
 import com.rowicka.gitartuner.utility.NavigationBottom;
 import com.rowicka.gitartuner.utility.Permission;
-
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.AudioProcessor;
@@ -155,10 +146,7 @@ public class TunerActivity extends Activity {
                 }
             }
         });
-
-
     }
-
 
     public void closeThread() {
         if (dispatcher != null) {
@@ -285,7 +273,6 @@ public class TunerActivity extends Activity {
 
         } else {
             pitchText.setText(" ");
-//            pitchText.setText(" " + pitchInHz);
         }
 
     }
@@ -347,7 +334,6 @@ public class TunerActivity extends Activity {
                     return;
                 }
             }
-            //all good
         }
     }
 

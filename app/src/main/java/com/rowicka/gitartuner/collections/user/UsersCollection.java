@@ -4,29 +4,23 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.util.Log;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
-import com.rowicka.gitartuner.profile.ProfileActivity;
-
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class UsersCollection {
 
     private FirebaseFirestore db;
     private String UID;
     private static String TAG = "UsersCollection";
-    User user;
-
-    public String email;
-    private boolean isExist = false;
+    private User user;
 
     public UsersCollection(String uid) {
         this.db = FirebaseFirestore.getInstance();
@@ -37,17 +31,8 @@ public class UsersCollection {
         return this.user;
     }
 
-    public void setUser(String email, String nick, String avatar) {
+    private void setUser(String email, String nick, String avatar) {
         this.user = new User(email, nick, avatar);
-    }
-
-
-    public boolean userIsExist(){
-        return this.isExist;
-    }
-
-    public void setExist(boolean exist) {
-        isExist = exist;
     }
 
     public void readUser(final ProgressDialog dialog) {
@@ -56,18 +41,21 @@ public class UsersCollection {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                 if (document.getId().equals(UID)) {
-                                    String email = document.getData().get("email").toString();
-                                    String nick = document.getData().get("nick").toString();
-                                    String avatar = document.getData().get("avatar").toString();
+                                    String email = Objects.requireNonNull(document.getData().get("email")).toString();
+                                    String nick = Objects.requireNonNull(document.getData().get("nick")).toString();
+                                    String avatar = Objects.requireNonNull(document.getData().get("avatar")).toString();
                                     setUser(email, nick, avatar);
-                                    setExist(true);
-                                    dialog.dismiss();
+                                    if (dialog != null){
+                                        dialog.dismiss();
+                                    }
                                     break;
                                 }
                             }
-                            dialog.dismiss();
+                            if (dialog != null){
+                                dialog.dismiss();
+                            }
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }

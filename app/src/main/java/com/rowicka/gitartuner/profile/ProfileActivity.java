@@ -11,10 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.rowicka.gitartuner.R;
-import com.rowicka.gitartuner.collections.leaderboard.LeaderboardCollection;
 import com.rowicka.gitartuner.collections.user.User;
 import com.rowicka.gitartuner.collections.user.UsersCollection;
 import com.rowicka.gitartuner.learning.BasicLearningActivity;
@@ -46,7 +44,10 @@ public class ProfileActivity extends Activity {
                     if(uc.getUser() == null){
                         auth = new AuthFirebase(ProfileActivity.this);
                         auth.logout();
+                        finish();
+                        overridePendingTransition(0, 0);
                         startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+                        overridePendingTransition(0, 0);
                     }else {
                         user = uc.getUser();
                         updateUI();
@@ -56,7 +57,10 @@ public class ProfileActivity extends Activity {
 
 
         } else {
+            finish();
+            overridePendingTransition(0, 0);
             startActivity(new Intent(this, LoginActivity.class));
+            overridePendingTransition(0, 0);
         }
 
 
@@ -81,7 +85,10 @@ public class ProfileActivity extends Activity {
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+                overridePendingTransition(0, 0);
                 startActivity(new Intent(ProfileActivity.this, SelectAvatarActivity.class));
+                overridePendingTransition(0, 0);
             }
         });
 
@@ -104,6 +111,9 @@ public class ProfileActivity extends Activity {
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
+        finish();
+        overridePendingTransition(0, 0);
         startActivity(new Intent(ProfileActivity.this, BasicLearningActivity.class));
+        overridePendingTransition(0, 0);
     }
 }

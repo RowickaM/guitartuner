@@ -19,7 +19,7 @@ public class Permission {
             Manifest.permission.INTERNET
 
     };
-    Activity activity;
+    private Activity activity;
 
     public Permission(Activity activity) {
         this.activity = activity;

@@ -3,16 +3,13 @@ package com.rowicka.gitartuner.learning;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import androidx.annotation.Nullable;
-
 import com.rowicka.gitartuner.R;
 import com.rowicka.gitartuner.learning.chords.Chords;
 import com.rowicka.gitartuner.learning.chords.ChordsAdapter;
@@ -20,21 +17,13 @@ import com.rowicka.gitartuner.profile.AuthFirebase;
 import com.rowicka.gitartuner.profile.LoginActivity;
 import com.rowicka.gitartuner.utility.NavigationBottom;
 import com.rowicka.gitartuner.utility.NavigationTop;
-
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ListOfChordsActivity extends Activity {
 
-    private static final String TAG = "ListOfChordsActivity";
-
-    private ListView listView;
-    private ChordsAdapter chordsAdapter;
     private String nameGroup;
-
-    private ArrayList<Chords> list;
     private String[] keys;
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,24 +35,27 @@ public class ListOfChordsActivity extends Activity {
 
         AuthFirebase auth = new AuthFirebase(this);
         if(!auth.checkUserLogin()){
+            finish();
+            overridePendingTransition(0, 0);
             startActivity(new Intent(ListOfChordsActivity.this, LoginActivity.class));
+            overridePendingTransition(0, 0);
         }
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             nameGroup = bundle.getString("group");
 
-            keys = bundle.getString("keys").split(";");
+            keys = Objects.requireNonNull(bundle.getString("keys")).split(";");
         }
 
-        listView = (ListView) findViewById(R.id.chordsGroupList);
+        ListView listView = (ListView) findViewById(R.id.chordsGroupList);
 
-        list = new ArrayList<>();
+        ArrayList<Chords> list = new ArrayList<>();
         for (String key : keys) {
             list.add(new Chords(key));
         }
 
-        chordsAdapter = new ChordsAdapter(ListOfChordsActivity.this, list);
+        ChordsAdapter chordsAdapter = new ChordsAdapter(ListOfChordsActivity.this, list);
         listView.setAdapter(chordsAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -90,7 +82,10 @@ public class ListOfChordsActivity extends Activity {
                                     sb.append(";");
                                 }
                                 intent.putExtra("keys", sb.toString());
+                                finish();
+                                overridePendingTransition(0, 0);
                                 startActivity(intent);
+                                overridePendingTransition(0, 0);
                             }
                         })
                         .setNeutralButton("Anuluj", new DialogInterface.OnClickListener() {
@@ -103,7 +98,10 @@ public class ListOfChordsActivity extends Activity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 intent.putExtra("isLearning", 1);
+                                finish();
+                                overridePendingTransition(0, 0);
                                 startActivity(intent);
+                                overridePendingTransition(0, 0);
                             }
                         })
                         .show();

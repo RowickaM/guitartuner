@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.rowicka.gitartuner.R;
 import com.rowicka.gitartuner.collections.user.UsersCollection;
@@ -96,7 +95,10 @@ public class SelectAvatarActivity extends Activity {
                             "",
                             array.get(finalI).getImgUrl());
 
+                    finish();
+                    overridePendingTransition(0, 0);
                     startActivity(new Intent(SelectAvatarActivity.this, ProfileActivity.class));
+                    overridePendingTransition(0, 0);
 
                 }
             });
@@ -106,6 +108,8 @@ public class SelectAvatarActivity extends Activity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+                overridePendingTransition(0, 0);
                 startActivity(new Intent(SelectAvatarActivity.this, ProfileActivity.class));
                 overridePendingTransition(0, 0);
             }

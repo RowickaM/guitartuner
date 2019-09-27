@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.rowicka.gitartuner.R;
+import com.rowicka.gitartuner.leaderboard.LeaderboardActivity;
 import com.rowicka.gitartuner.learning.BasicLearningActivity;
 import com.rowicka.gitartuner.learning.ListOfChordsActivity;
 import com.rowicka.gitartuner.learning.ShowChordActivity;
@@ -19,7 +19,7 @@ import com.rowicka.gitartuner.tuner.TunerActivity;
 
 public class NavigationBottom {
 
-    Activity act;
+    private Activity act;
 
     public NavigationBottom(final Activity activity) {
         act = activity;
@@ -39,7 +39,10 @@ public class NavigationBottom {
             @Override
             public void onClick(View view) {
                 if (!act.getClass().equals(TunerActivity.class)) {
+                    act.finish();
+                    act.overridePendingTransition(0, 0);
                     act.startActivity(new Intent(act, TunerActivity.class));
+                    act.overridePendingTransition(0, 0);
                 }
             }
         });
@@ -48,7 +51,10 @@ public class NavigationBottom {
             @Override
             public void onClick(View view) {
                 if (!act.getClass().equals(MetronomeActivity.class)) {
+                    act.finish();
+                    act.overridePendingTransition(0, 0);
                     act.startActivity(new Intent(act, MetronomeActivity.class));
+                    act.overridePendingTransition(0, 0);
                 }
             }
         });
@@ -58,7 +64,10 @@ public class NavigationBottom {
             @Override
             public void onClick(View view) {
                 if (!act.getClass().equals(BasicLearningActivity.class)) {
+                    act.finish();
+                    act.overridePendingTransition(0, 0);
                     act.startActivity(new Intent(act, LoginActivity.class));
+                    act.overridePendingTransition(0, 0);
                 }
             }
         });
@@ -69,7 +78,7 @@ public class NavigationBottom {
 //            metronome
             setUnColor(activity, textMetro, imgMetro, R.drawable.ic_metronome);
             //microphone
-            setUnColor(activity, textLearn, imgLearn, R.drawable.ic_microphone);
+            setUnColor(activity, textLearn, imgLearn, R.drawable.ic_chords);
 
 
         } else if (act.getClass().equals(MetronomeActivity.class)) {
@@ -78,17 +87,18 @@ public class NavigationBottom {
 //            metronome
             setColor(activity, textMetro, imgMetro, R.drawable.ic_metronome_color);
             //microphone
-            setUnColor(activity, textLearn, imgLearn, R.drawable.ic_microphone);
+            setUnColor(activity, textLearn, imgLearn, R.drawable.ic_chords);
         } else if (act.getClass().equals(BasicLearningActivity.class)
                 || act.getClass().equals(ListOfChordsActivity.class)
                 || act.getClass().equals(LoginActivity.class)
+                || act.getClass().equals(LeaderboardActivity.class)
                 || act.getClass().equals(ShowChordActivity.class)) {
 //            tuner
             setUnColor(activity, textTuner, imgTuner, R.drawable.ic_tuner);
 //            metronome
             setUnColor(activity, textMetro, imgMetro, R.drawable.ic_metronome);
             //microphone
-            setColor(activity, textLearn, imgLearn, R.drawable.ic_microphone_color);
+            setColor(activity, textLearn, imgLearn, R.drawable.ic_chords_color);
 
         }
 

@@ -8,8 +8,8 @@ import com.rowicka.gitartuner.R;
 
 public class BeatsPoints {
 
-    ImageView[] txArray;
-    Activity activity;
+    private ImageView[] txArray;
+    private Activity activity;
 
    public BeatsPoints(Activity activity) {
         this.activity = activity;

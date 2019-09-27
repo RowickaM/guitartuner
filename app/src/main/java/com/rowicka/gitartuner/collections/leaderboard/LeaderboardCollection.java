@@ -1,17 +1,17 @@
 package com.rowicka.gitartuner.collections.leaderboard;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
-
-import java.util.Arrays;
+import com.rowicka.gitartuner.collections.user.User;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -20,7 +20,9 @@ public class LeaderboardCollection {
     private static final String TAG = "LeaderboardCollection";
     private String UID;
     private FirebaseFirestore db;
-    Map<String, Object> collection;
+    private Map<String, Object> collection;
+    private ArrayList<Leaderboard> leaderCollection = new ArrayList<>();
+
 
     public LeaderboardCollection(String uid) {
         this.collection = new HashMap<>();
@@ -98,11 +100,8 @@ public class LeaderboardCollection {
     }
 
     public void updateCollectionForUser(final String group,
-                                        final String chordName,
-                                        final double points,
-                                        final float pointsGroup,
-                                        final float pointsUser,
-                                        final String iteration) {
+                                        final String chordName, final double points, final float pointsGroup,
+                                        final float pointsUser, final String iteration) {
 
         collection.put("attempt", iteration);
         collection.put("points", points);
@@ -125,4 +124,87 @@ public class LeaderboardCollection {
                     }
                 });
     }
+    public void getCollectionByUID(final ProgressDialog dialog){
+        db.collection("leaderboard").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot document: Objects.requireNonNull(task.getResult())){
+
+                                final String id = document.getId();
+                                final Map<String, Object> statistic =  getStatistic(document.getData());
+                                leaderCollection.add(new Leaderboard(id, statistic));
+                               dialog.cancel();
+                            }
+                        }else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+
+                        }
+
+
+                    }
+
+                });
+
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                dialog.setCancelable(false);
+                dialog.show();
+                db.collection("users").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()){
+                                    for (QueryDocumentSnapshot document: Objects.requireNonNull(task.getResult())){
+                                        for (Leaderboard leaderboard: leaderCollection){
+                                            if (document.getId().equals(leaderboard.getUid())){
+                                                leaderboard.setUser(getUser(document.getData()));
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+            }
+        });
+    }
+
+    private Map<String, Object> getStatistic(Map<String, Object> data) {
+
+        Map<String, Object> statistic = new HashMap<>();
+        statistic.put("all", data.get("all"));
+
+        Map<String, Object> inGroup = new HashMap<>();
+        inGroup = (Map<String, Object>) data.get("group1");
+        statistic.put("group1", inGroup.get("all"));
+
+        inGroup = (Map<String, Object>) data.get("group2");
+        statistic.put("group2", inGroup.get("all"));
+
+        inGroup = (Map<String, Object>) data.get("group3");
+        statistic.put("group3", inGroup.get("all"));
+
+        inGroup = (Map<String, Object>) data.get("group4");
+        statistic.put("group4", inGroup.get("all"));
+
+        inGroup = (Map<String, Object>) data.get("group5");
+        statistic.put("group5", inGroup.get("all"));
+
+        return statistic;
+    }
+    private User getUser(Map<String, Object> data){
+        Log.d(TAG, "getUser: "+data.get("email"));
+        return new User(Objects.requireNonNull(data.get("email")).toString(),
+                Objects.requireNonNull(data.get("nick")).toString(),
+                Objects.requireNonNull(data.get("avatar")).toString());
+    }
+
+    public ArrayList<Leaderboard> getLeaderCollection(){
+        return this.leaderCollection;
+    }
+
 }

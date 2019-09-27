@@ -1,7 +1,5 @@
 package com.rowicka.gitartuner.profile;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.google.firebase.auth.FirebaseAuth;
 import com.rowicka.gitartuner.R;
 
 public class RegistrationActivity extends Activity {
@@ -35,7 +31,10 @@ public class RegistrationActivity extends Activity {
         toLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+                overridePendingTransition(0, 0);
                 startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+                overridePendingTransition(0, 0);
             }
         });
 

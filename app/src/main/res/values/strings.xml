@@ -1,8 +1,8 @@
 <resources>
     <array name="permissions">
-        <item>mikrofon - pozwoli na poprawne działanie stroika oraz rozpoznawania piosenek</item>
-        <item>internet - pozwoli na rozpoznanie piosenki</item>
-        <item>zapis i odczyt plików - pozwoli na rozpoznanie piosenki</item>
+        <item>mikrofon - pozwoli na poprawne działanie stroika
+            oraz rozpoznawania poprawności granych akordów</item>
+
     </array>
     <array name="tune">
         <item>E A D G H e</item>
@@ -38,11 +38,13 @@
     <string name="add">+</string>
     <string name="tuner">Stroik</string>
     <string name="metronome">Metronom</string>
-    <string name="req">Nasłuchuj</string>
-    <string name="timecode">Kiedy</string>
-    <string name="album">Album</string>
-    <string name="author">Autor</string>
-    <string name="title">Tytuł</string>
+    <string name="chord">Akordy</string>
     <string name="registrationText">Nie posiadasz konta? Zarejestruj się tutaj</string>
     <string name="loginText">Posiadasz już konto? Zaloguj się tutaj</string>
+    <string name="all">Wszystkie</string>
+    <string name="group1">Grupa 1</string>
+    <string name="group2">Grupa 2</string>
+    <string name="group3">Grupa 3</string>
+    <string name="group4">Grupa 4</string>
+    <string name="group5">Grupa 5</string>
 </resources>

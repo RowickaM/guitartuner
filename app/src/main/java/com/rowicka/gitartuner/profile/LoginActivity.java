@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.rowicka.gitartuner.R;
 import com.rowicka.gitartuner.learning.BasicLearningActivity;
 import com.rowicka.gitartuner.utility.NavigationBottom;
@@ -25,7 +24,10 @@ public class LoginActivity extends Activity {
         new NavigationBottom(this);
         final AuthFirebase auth = new AuthFirebase(this);
         if (auth.checkUserLogin()){
+            finish();
+            overridePendingTransition(0, 0);
             startActivity(new Intent(this, BasicLearningActivity.class));
+            overridePendingTransition(0, 0);
         }
 
         login = (EditText) findViewById(R.id.login);
@@ -36,7 +38,10 @@ public class LoginActivity extends Activity {
         toRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+                overridePendingTransition(0, 0);
                 startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+                overridePendingTransition(0, 0);
             }
         });
 

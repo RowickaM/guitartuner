@@ -1,17 +1,11 @@
 package com.rowicka.gitartuner.learning.chord;
 
-import android.util.Log;
-
 public class Chord {
     private String name;
     private String[] correctFrequency;
     private String urlSchema;
     private float attempt, points, allInGroup, allForUser;
 
-    public Chord(String name, String[] correctFrequency) {
-        this.name = name;
-        this.correctFrequency = correctFrequency;
-    }
     public Chord(String name, String[] correctFrequency, String url) {
         this.name = name;
         this.correctFrequency = correctFrequency;
@@ -37,17 +31,10 @@ public class Chord {
         this.name = name;
     }
 
-    public String[] getCorrectFrequency() {
-        return correctFrequency;
-    }
-
-    public void setCorrectFrequency(String[] correctFrequency) {
-        this.correctFrequency = correctFrequency;
-    }
-
     public float getAttempt() {
         return attempt;
     }
+
     public float getPoints() {
         return points;
     }
@@ -75,9 +62,5 @@ public class Chord {
 
     public String getUrlSchema() {
         return urlSchema;
-    }
-
-    public void setUrlSchema(String urlSchema) {
-        this.urlSchema = urlSchema;
     }
 }

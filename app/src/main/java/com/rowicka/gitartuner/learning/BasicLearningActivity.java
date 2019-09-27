@@ -1,19 +1,12 @@
 package com.rowicka.gitartuner.learning;
 
-
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.rowicka.gitartuner.R;
-import com.rowicka.gitartuner.collections.chords.ChordsCollection;
-import com.rowicka.gitartuner.learning.chords.Chords;
 import com.rowicka.gitartuner.learning.chordsGroup.ChordsGroup;
 import com.rowicka.gitartuner.learning.chordsGroup.ChordsGroupAdapter;
 import com.rowicka.gitartuner.profile.AuthFirebase;
@@ -25,8 +18,6 @@ import java.util.ArrayList;
 
 public class BasicLearningActivity extends Activity {
 
-    private ListView listView;
-    private ChordsGroupAdapter chordsGroupAdapter;
     private ArrayList<ChordsGroup> list;
 
     private static final String TAG = "BasicLearningActivity";
@@ -41,10 +32,13 @@ public class BasicLearningActivity extends Activity {
 
         AuthFirebase auth = new AuthFirebase(this);
         if(!auth.checkUserLogin()){
+            finish();
+            overridePendingTransition(0, 0);
             startActivity(new Intent(BasicLearningActivity.this, LoginActivity.class));
+            overridePendingTransition(0, 0);
         }
 
-        listView = (ListView) findViewById(R.id.chordsGroupList);
+        ListView listView = (ListView) findViewById(R.id.chordsGroupList);
         list = new ArrayList<>();
 
         list.add(new ChordsGroup("Grupa 1", "D-dur;E-moll;G-dur"));
@@ -53,7 +47,7 @@ public class BasicLearningActivity extends Activity {
         list.add(new ChordsGroup("grupa4", "A5;C5;D5;G5"));
         list.add(new ChordsGroup("grupa5", "G-moll;C-moll;B7;D7;G7"));
 
-        chordsGroupAdapter = new ChordsGroupAdapter(BasicLearningActivity.this, list);
+        ChordsGroupAdapter chordsGroupAdapter = new ChordsGroupAdapter(BasicLearningActivity.this, list);
         listView.setAdapter(chordsGroupAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -83,8 +77,10 @@ public class BasicLearningActivity extends Activity {
                         intent.putExtra("group", "group5");
                         break;
                 }
-
+                finish();
+                overridePendingTransition(0, 0);
                 startActivity(intent);
+                overridePendingTransition(0, 0);
             }
         });
     }
