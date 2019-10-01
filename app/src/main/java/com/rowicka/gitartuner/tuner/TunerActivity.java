@@ -115,7 +115,6 @@ public class TunerActivity extends Activity {
                             public void onClick(View view) {
                                 autoTuneSwitch.setChecked(false);
                                 frequencyReq = Integer.parseInt(Notes.getArray().get(finalI)[1]);
-                                Toast.makeText(TunerActivity.this, "Click short", Toast.LENGTH_SHORT).show();
                                 closeThread();
                                 setChosenAndNotCorrect(finalI);
                                 checkPitch(finalI);

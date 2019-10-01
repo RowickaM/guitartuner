@@ -1,6 +1,7 @@
 package com.rowicka.gitartuner.profile;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -53,6 +54,8 @@ public class AuthFirebase {
     public void userLogin(String email, String password) {
         password = password.trim();
         email = email.trim();
+        final ProgressDialog dialog = showLoadingDialog();
+        dialog.show();
 
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
             firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -60,10 +63,8 @@ public class AuthFirebase {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
-                                ((Activity) context).getParent().finish();
-                                ((Activity) context).getParent().overridePendingTransition(0, 0);
+                                dialog.dismiss();
                                 context.startActivity(new Intent(context, BasicLearningActivity.class));
-                                ((Activity) context).getParent().overridePendingTransition(0, 0);
                             }
                             else
                                 Toast.makeText(context, "Nie poprawne dane", Toast.LENGTH_SHORT).show();
@@ -79,19 +80,16 @@ public class AuthFirebase {
         password = password.trim();
         repeatPassword = repeatPassword.trim();
 
-        if (!TextUtils.isEmpty(email) && checkPassword(password, repeatPassword)) {
-            ProgressDialog dialog = new ProgressDialog(context);
-            dialog.setMessage("Rejestracja...");
-            dialog.setCancelable(false);
-            dialog.show();
+        final ProgressDialog dialog = showLoadingDialog();
+        dialog.show();
 
+        if (!TextUtils.isEmpty(email) && checkPassword(password, repeatPassword)) {
             final String finalEmail = email;
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
                                 Log.d("Registration", "createUserWithEmail:success");
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -103,19 +101,20 @@ public class AuthFirebase {
                                 LeaderboardCollection lc = new LeaderboardCollection(user.getUid());
                                 lc.createDocument();
 
+                                dialog.dismiss();
                                 updateUI(user);
                             } else {
-                                // If sign in fails, display a message to the user.
                                 Log.w("Registration", "createUserWithEmail:failure", task.getException());
+                                dialog.dismiss();
                                 Toast.makeText(context, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                                 updateUI(null);
                             }
                         }
                     });
-            dialog.cancel();
 
         } else {
+            dialog.dismiss();
             Toast.makeText(context, "Wymagane pola są puste", Toast.LENGTH_SHORT).show();
         }
     }
@@ -125,5 +124,12 @@ public class AuthFirebase {
         if (currentUser != null) {
             context.startActivity(new Intent(context, BasicLearningActivity.class));
         }
+    }
+
+    private ProgressDialog showLoadingDialog(){
+        ProgressDialog dialog = new ProgressDialog(context);
+        dialog.setMessage("Ładowanie");
+        dialog.setCancelable(false);
+        return dialog;
     }
 }

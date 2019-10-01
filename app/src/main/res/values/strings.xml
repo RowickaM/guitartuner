@@ -47,4 +47,6 @@
     <string name="group3">Grupa 3</string>
     <string name="group4">Grupa 4</string>
     <string name="group5">Grupa 5</string>
+    <string name="note">E</string>
+    <string name="auto">Auto</string>
 </resources>
