@@ -19,10 +19,10 @@ import com.rowicka.gitartuner.tuner.TunerActivity;
 
 public class NavigationBottom {
 
-    private Activity act;
+    private Activity activity;
 
     public NavigationBottom(final Activity activity) {
-        act = activity;
+        this.activity = activity;
         LinearLayout toTuner = (LinearLayout) activity.findViewById(R.id.toTuner);
         LinearLayout toMetronome = (LinearLayout) activity.findViewById(R.id.toMetronome);
         LinearLayout toLearn = (LinearLayout) activity.findViewById(R.id.toLearn);
@@ -38,11 +38,11 @@ public class NavigationBottom {
         toTuner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!act.getClass().equals(TunerActivity.class)) {
-                    act.finish();
-                    act.overridePendingTransition(0, 0);
-                    act.startActivity(new Intent(act, TunerActivity.class));
-                    act.overridePendingTransition(0, 0);
+                if (!NavigationBottom.this.activity.getClass().equals(TunerActivity.class)) {
+                    NavigationBottom.this.activity.finish();
+                    NavigationBottom.this.activity.overridePendingTransition(0, 0);
+                    NavigationBottom.this.activity.startActivity(new Intent(NavigationBottom.this.activity, TunerActivity.class));
+                    NavigationBottom.this.activity.overridePendingTransition(0, 0);
                 }
             }
         });
@@ -50,11 +50,11 @@ public class NavigationBottom {
         toMetronome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!act.getClass().equals(MetronomeActivity.class)) {
-                    act.finish();
-                    act.overridePendingTransition(0, 0);
-                    act.startActivity(new Intent(act, MetronomeActivity.class));
-                    act.overridePendingTransition(0, 0);
+                if (!NavigationBottom.this.activity.getClass().equals(MetronomeActivity.class)) {
+                    NavigationBottom.this.activity.finish();
+                    NavigationBottom.this.activity.overridePendingTransition(0, 0);
+                    NavigationBottom.this.activity.startActivity(new Intent(NavigationBottom.this.activity, MetronomeActivity.class));
+                    NavigationBottom.this.activity.overridePendingTransition(0, 0);
                 }
             }
         });
@@ -63,54 +63,54 @@ public class NavigationBottom {
         toLearn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!act.getClass().equals(BasicLearningActivity.class)) {
-                    act.finish();
-                    act.overridePendingTransition(0, 0);
-                    act.startActivity(new Intent(act, LoginActivity.class));
-                    act.overridePendingTransition(0, 0);
+                if (!NavigationBottom.this.activity.getClass().equals(BasicLearningActivity.class)) {
+                    NavigationBottom.this.activity.finish();
+                    NavigationBottom.this.activity.overridePendingTransition(0, 0);
+                    NavigationBottom.this.activity.startActivity(new Intent(NavigationBottom.this.activity, LoginActivity.class));
+                    NavigationBottom.this.activity.overridePendingTransition(0, 0);
                 }
             }
         });
 
-        if (act.getClass().equals(TunerActivity.class)) {
+        if (this.activity.getClass().equals(TunerActivity.class)) {
 //            tuner
-            setColor(activity, textTuner, imgTuner, R.drawable.ic_tuner_color);
+            setColor(textTuner, imgTuner, R.drawable.ic_tuner_color);
 //            metronome
-            setUnColor(activity, textMetro, imgMetro, R.drawable.ic_metronome);
+            setUnColor(textMetro, imgMetro, R.drawable.ic_metronome);
             //microphone
-            setUnColor(activity, textLearn, imgLearn, R.drawable.ic_chords);
+            setUnColor(textLearn, imgLearn, R.drawable.ic_chords);
 
 
-        } else if (act.getClass().equals(MetronomeActivity.class)) {
+        } else if (this.activity.getClass().equals(MetronomeActivity.class)) {
 //            tuner
-            setUnColor(activity, textTuner, imgTuner, R.drawable.ic_tuner);
+            setUnColor(textTuner, imgTuner, R.drawable.ic_tuner);
 //            metronome
-            setColor(activity, textMetro, imgMetro, R.drawable.ic_metronome_color);
+            setColor(textMetro, imgMetro, R.drawable.ic_metronome_color);
             //microphone
-            setUnColor(activity, textLearn, imgLearn, R.drawable.ic_chords);
-        } else if (act.getClass().equals(BasicLearningActivity.class)
-                || act.getClass().equals(ListOfChordsActivity.class)
-                || act.getClass().equals(LoginActivity.class)
-                || act.getClass().equals(LeaderboardActivity.class)
-                || act.getClass().equals(ShowChordActivity.class)) {
+            setUnColor(textLearn, imgLearn, R.drawable.ic_chords);
+        } else if (this.activity.getClass().equals(BasicLearningActivity.class)
+                || this.activity.getClass().equals(ListOfChordsActivity.class)
+                || this.activity.getClass().equals(LoginActivity.class)
+                || this.activity.getClass().equals(LeaderboardActivity.class)
+                || this.activity.getClass().equals(ShowChordActivity.class)) {
 //            tuner
-            setUnColor(activity, textTuner, imgTuner, R.drawable.ic_tuner);
+            setUnColor(textTuner, imgTuner, R.drawable.ic_tuner);
 //            metronome
-            setUnColor(activity, textMetro, imgMetro, R.drawable.ic_metronome);
+            setUnColor(textMetro, imgMetro, R.drawable.ic_metronome);
             //microphone
-            setColor(activity, textLearn, imgLearn, R.drawable.ic_chords_color);
+            setColor(textLearn, imgLearn, R.drawable.ic_chords_color);
 
         }
 
     }
 
-    private void setColor(Activity activity, TextView textView, ImageView imgView, int drawable) {
-        imgView.setImageDrawable(activity.getResources().getDrawable(drawable));
-        textView.setTextColor(Color.WHITE);
+    private void setColor(TextView text, ImageView img, int drawable) {
+        img.setImageDrawable(this.activity.getResources().getDrawable(drawable));
+        text.setTextColor(Color.WHITE);
     }
 
-    private void setUnColor(Activity activity, TextView textView, ImageView imgView, int drawable) {
-        imgView.setImageDrawable(activity.getResources().getDrawable(drawable));
-        textView.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+    private void setUnColor(TextView text, ImageView img, int drawable) {
+        img.setImageDrawable(this.activity.getResources().getDrawable(drawable));
+        text.setTextColor(this.activity.getResources().getColor(R.color.colorPrimaryDark));
     }
 }

@@ -25,6 +25,46 @@ public class ProfileActivity extends Activity {
     User user;
     ProgressDialog dialog;
 
+    private void updateUI() {
+        TextView email = (TextView) findViewById(R.id.email);
+        EditText nick = (EditText) findViewById(R.id.nick);
+        ImageView avatar = (ImageView) findViewById(R.id.avatar);
+        Button updateData = (Button) findViewById(R.id.change);
+
+        email.setText(user.getEmail());
+        nick.setText(user.getNick());
+
+        //image
+        Picasso.with(this)
+                .load(user.getImgUrl())
+                .placeholder(R.mipmap.ic_guitar_round)
+                .into(avatar);
+
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(new Intent(ProfileActivity.this, SelectAvatarActivity.class));
+                overridePendingTransition(0, 0);
+            }
+        });
+
+        updateData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final UsersCollection uc = new UsersCollection(firebaseAuth.getCurrentUser().getUid());
+                EditText nick = (EditText) findViewById(R.id.nick);
+                if (!TextUtils.isEmpty(nick.getText().toString().trim())) {
+                    uc.updateUser(
+                            ProfileActivity.this,
+                            nick.getText().toString().trim(),
+                            "");
+                }
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,48 +104,6 @@ public class ProfileActivity extends Activity {
         }
 
 
-    }
-
-
-    private void updateUI() {
-        TextView email = (TextView) findViewById(R.id.email);
-        EditText nick = (EditText) findViewById(R.id.nick);
-        ImageView avatar = (ImageView) findViewById(R.id.avatar);
-        Button updateData = (Button) findViewById(R.id.change);
-
-        email.setText(user.getEmail());
-        nick.setText(user.getNick());
-
-        //image
-        Picasso.with(this)
-                .load(user.getImgUrl())
-                .placeholder(R.mipmap.ic_guitar_round)
-                .into(avatar);
-
-        avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(new Intent(ProfileActivity.this, SelectAvatarActivity.class));
-                overridePendingTransition(0, 0);
-            }
-        });
-
-        updateData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final UsersCollection uc = new UsersCollection(firebaseAuth.getCurrentUser().getUid());
-                EditText nick = (EditText) findViewById(R.id.nick);
-                if (!TextUtils.isEmpty(nick.getText().toString().trim())) {
-                        uc.updateUser(
-                                ProfileActivity.this,
-                                firebaseAuth.getCurrentUser().getUid(),
-                                nick.getText().toString().trim(),
-                               "");
-                }
-            }
-        });
     }
 
     @Override

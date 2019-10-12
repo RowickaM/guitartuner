@@ -31,10 +31,6 @@ public class UsersCollection {
         return this.user;
     }
 
-    private void setUser(String email, String nick, String avatar) {
-        this.user = new User(email, nick, avatar);
-    }
-
     public void readUser(final ProgressDialog dialog) {
         this.db.collection("users").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -63,31 +59,36 @@ public class UsersCollection {
                 });
     }
 
-    public void updateUser(Activity activity, String uid, String nick, String url) {
+    public void updateUser(Activity activity,String nick, String url) {
         Map<String, Object> user = new HashMap<>();
         if (!url.equals(""))
             user.put("avatar", url);
         if (!nick.equals(""))
             user.put("nick", nick);
 
-        db.collection("users").document(uid)
+        db.collection("users").document(UID)
                 .set(user, SetOptions.merge());
 
         Toast.makeText(activity, "Dane zostały zmienione", Toast.LENGTH_SHORT).show();
 
     }
 
-    public void addUser(String uid, String email) {
+    public void addUser(String email) {
         Map<String, Object> user = new HashMap<>();
             user.put("avatar", "https://firebasestorage.googleapis.com/v0/b/guitar-tuna.appspot.com/o/user-ico%2Fuser-5.png?alt=media&token=652814b1-2e80-426d-9341-b3dc6bc66194");
         if (!email.equals("")){
-            user.put("nick", email);
-            user.put("email", email);
+            user.put("nick",  email.split("@")[0]);
+            user.put("email",email);
 
         }
 
-        db.collection("users").document(uid)
+        db.collection("users").document(UID)
                 .set(user, SetOptions.merge());
     }
+
+    private void setUser(String email, String nick, String avatar) {
+        this.user = new User(email, nick, avatar);
+    }
+
 
 }

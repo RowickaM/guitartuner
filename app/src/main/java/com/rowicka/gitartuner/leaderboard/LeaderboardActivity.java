@@ -20,9 +20,39 @@ import java.util.Objects;
 
 public class LeaderboardActivity extends Activity {
 
+    ArrayList<Leaderboard> list = new ArrayList<>();
     private ListView listView;
     private LeaderboardAdapter adapter;
-    ArrayList<Leaderboard> list = new ArrayList<>();
+
+    private ArrayList<Leaderboard> getAll() {
+        Leaderboard[] leaderboards = list.toArray(new Leaderboard[list.size()]);
+        Leaderboard temp;
+        for (int i = 0; i < leaderboards.length; i++) {
+            for (int j = 0; j < leaderboards.length - 1; j++)
+                if (leaderboards[j].getAllPoints() < leaderboards[j + 1].getAllPoints()) {
+                    temp = leaderboards[j];
+                    leaderboards[j] = leaderboards[j + 1];
+                    leaderboards[j + 1] = temp;
+                }
+        }
+
+        return new ArrayList<Leaderboard>(Arrays.asList(leaderboards));
+    }
+
+    private ArrayList<Leaderboard> getGroup(String str) {
+        Leaderboard[] leaderboards = list.toArray(new Leaderboard[list.size()]);
+        Leaderboard temp;
+        for (int i = 0; i < leaderboards.length; i++) {
+            for (int j = 0; j < leaderboards.length - 1; j++)
+                if (leaderboards[j].getPointsByGroup(str) < leaderboards[j + 1].getPointsByGroup(str)) {
+                    temp = leaderboards[j];
+                    leaderboards[j] = leaderboards[j + 1];
+                    leaderboards[j + 1] = temp;
+                }
+        }
+
+        return new ArrayList<Leaderboard>(Arrays.asList(leaderboards));
+    }
 
 
     @Override
@@ -83,36 +113,5 @@ public class LeaderboardActivity extends Activity {
         }
 
     }
-
-    private ArrayList<Leaderboard> getAll() {
-        Leaderboard[] leaderboards = list.toArray(new Leaderboard[list.size()]);
-        Leaderboard temp;
-        for (int i = 0; i < leaderboards.length; i++) {
-            for (int j = 0; j < leaderboards.length - 1; j++)
-                if (leaderboards[j].getAllPoints() < leaderboards[j + 1].getAllPoints()) {
-                    temp = leaderboards[j];
-                    leaderboards[j] = leaderboards[j + 1];
-                    leaderboards[j + 1] = temp;
-                }
-        }
-
-        return new ArrayList<Leaderboard>(Arrays.asList(leaderboards));
-    }
-
-    private ArrayList<Leaderboard> getGroup(String str) {
-        Leaderboard[] leaderboards = list.toArray(new Leaderboard[list.size()]);
-        Leaderboard temp;
-        for (int i = 0; i < leaderboards.length; i++) {
-            for (int j = 0; j < leaderboards.length - 1; j++)
-                if (leaderboards[j].getPointsByGroup(str) < leaderboards[j + 1].getPointsByGroup(str)) {
-                    temp = leaderboards[j];
-                    leaderboards[j] = leaderboards[j + 1];
-                    leaderboards[j + 1] = temp;
-                }
-        }
-
-        return new ArrayList<Leaderboard>(Arrays.asList(leaderboards));
-    }
-
 }
 

@@ -1,5 +1,6 @@
 package com.rowicka.gitartuner.learning;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -42,128 +43,25 @@ public class ShowChordActivity extends Activity {
     Permission permission;
     private Thread audioThread;
     private AudioDispatcher dispatcher;
-//    private int[] correctSeq = {0, 0, 0, 0, 0, 0};
-    private int[] correctSeq = {1,1,1,1,1,1};
+    private int[] correctSeq = {0, 0, 0, 0, 0, 0};
     private int isLearning = 1, iteration = 1;
     private String nameGroup, key, keys;
     private float attempt, allInChord, allForGroup, allForUser;
-
     private float[] allPoints = {0, 0};
 
-    TextView nameChord;
-    Button showSchema;
-    TextView[] string;
-    ImageView schemaChord;
-    LinearLayout layoutButton;
-    Chord chord;
-    ChordsCollection cc;
-
-    ProgressDialog dialog;
+    private TextView nameChord;
+    private Button showSchema;
+    private TextView[] string;
+    private ImageView schemaChord;
+    private LinearLayout layoutButton;
+    private Chord chord;
+    private ChordsCollection cc;
 
     //zmienne do odmierzania czasu
-    Chronometer chronometr;
-    Handler handler;
+    private Chronometer chronometer;
+    private Handler handler;
     long tMilliSec, tStart, tBuff, tUpdate = 0L;
-    int sec, min, millisec;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_chord);
-
-        permission = new Permission(this);
-        permission.permissions();
-
-        new NavigationBottom(this);
-        new NavigationTop(this);
-
-        nameChord = (TextView) findViewById(R.id.chordName);
-        schemaChord = (ImageView) findViewById(R.id.chordSchema);
-        chronometr = findViewById(R.id.stopWatchView);
-        showSchema = (Button) findViewById(R.id.showSchemaBtn);
-        layoutButton = (LinearLayout) findViewById(R.id.layoutButton);
-
-        handler = new Handler();
-
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            nameGroup = bundle.getString("group");
-            key = bundle.getString("key");
-            keys = bundle.getString("keys");
-            iteration = bundle.getInt("progress");
-            setProgressText(iteration);
-            isLearning = bundle.getInt("isLearning");
-        }
-
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("Ładowanie danych");
-        dialog.setCancelable(false);
-        dialog.show();
-
-
-        string = new TextView[]{
-                findViewById(R.id.stringChord1),
-                findViewById(R.id.stringChord2),
-                findViewById(R.id.stringChord3),
-                findViewById(R.id.stringChord4),
-                findViewById(R.id.stringChord5),
-                findViewById(R.id.stringChord6),
-        };
-
-        cc = new ChordsCollection();
-        cc.fetchChord(dialog, nameGroup, key);
-
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {//działanie aplikacji po pobraniu akordu
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                chord = cc.getChord();
-                if (cc != null) {
-                    Picasso.with(ShowChordActivity.this)
-                            .load(chord.getUrlSchema())
-                            .placeholder(R.mipmap.ic_guitar_round)
-                            .into(schemaChord);
-
-
-                    nameChord.setText(chord.getName());
-                    attempt = chord.getAttempt();
-                    allInChord = chord.getPoints();
-                    allForGroup = chord.getAllInGroup();
-                    allForUser = chord.getAllForUser();
-
-                    if (isLearning == 1) {//tryb nauki
-                        getPitch();
-                    } else if (isLearning == 0) {//tryb rankingu
-                        schemaChord.setVisibility(View.GONE);
-                        showSchema.setVisibility(View.VISIBLE);
-                        layoutButton.setVisibility(View.VISIBLE);
-                        //stoper
-                        startCountUp();
-                        getPitch();
-                    }
-                } else {
-                    finish();
-                    overridePendingTransition(0, 0);
-                    startActivity(new Intent(ShowChordActivity.this, LoginActivity.class));
-                    overridePendingTransition(0, 0);
-                }
-            }
-
-        });
-
-        showSchema.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showSchema.setVisibility(View.GONE);
-                layoutButton.setVisibility(View.GONE);
-                schemaChord.setVisibility(View.VISIBLE);
-            }
-        });
-    }
-
-
-    private void setProgressText(int iteration) {
-//        progressTV.setText("próba " + iteration + "/4");
-    }
+    int sec, min, millis;
 
     public void closeThread() {
         if (dispatcher != null) {
@@ -175,13 +73,6 @@ public class ShowChordActivity extends Activity {
                 setDefault(i);
             }
         }
-    }
-
-    @Override
-    protected void onStop() {
-
-        closeThread();
-        super.onStop();
     }
 
     public void getPitch() {
@@ -310,7 +201,6 @@ public class ShowChordActivity extends Activity {
                 } else if (isLearning == 0 && iteration < 4) {
                     //zwiększenie iteracji
                     iteration++;
-                    setProgressText(iteration);
                     getPitch();
                     dialogInterface.dismiss();
                     startCountUp();
@@ -347,7 +237,7 @@ public class ShowChordActivity extends Activity {
 
     private void setDefault(int position) {
         string[position].setBackgroundColor(Color.WHITE);
-        correctSeq[position] = 1;
+        correctSeq[position] = 0;
     }
 
     private void setPoints() {
@@ -405,7 +295,7 @@ public class ShowChordActivity extends Activity {
         Log.d(TAG, "startCountUp: ");
         tStart = SystemClock.uptimeMillis();
         handler.postDelayed(runnable, 0);
-        chronometr.start();
+        chronometer.start();
     }
 
     private void stopCountUp() {
@@ -414,11 +304,16 @@ public class ShowChordActivity extends Activity {
         tBuff = 0L;
         tUpdate = 0L;
         sec = 0;
-        millisec = 0;
+        millis = 0;
         min = 0;
-        chronometr.stop();
+        chronometer.stop();
         handler.removeCallbacks(runnable);
 
+    }
+
+    @SuppressLint("DefaultLocale")
+    private String setTextChronometer(){
+        return String.format("%s:%s:%s", String.format("%02d", min), String.format("%02d", sec), String.format("%02d", millis));
     }
 
     //do odmierzania czasu
@@ -430,12 +325,110 @@ public class ShowChordActivity extends Activity {
             sec = (int) (tUpdate / 1000);
             min = sec / 60;
             sec = sec % 60;
-            millisec = (int) (tUpdate % 100);
-            chronometr.setText(String.format("%02d", min) + ":" +
-                    String.format("%02d", sec) + ":" + String.format("%02d", millisec));
+            millis = (int) (tUpdate % 100);
+            chronometer.setText(setTextChronometer());
             handler.postDelayed(this, 60);
         }
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_show_chord);
+
+        permission = new Permission(this);
+        permission.permissions();
+
+        new NavigationBottom(this);
+        new NavigationTop(this);
+
+        nameChord = (TextView) findViewById(R.id.chordName);
+        schemaChord = (ImageView) findViewById(R.id.chordSchema);
+        chronometer = findViewById(R.id.stopWatchView);
+        showSchema = (Button) findViewById(R.id.showSchemaBtn);
+        layoutButton = (LinearLayout) findViewById(R.id.layoutButton);
+
+        handler = new Handler();
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            nameGroup = bundle.getString("group");
+            key = bundle.getString("key");
+            keys = bundle.getString("keys");
+            iteration = bundle.getInt("progress");
+            isLearning = bundle.getInt("isLearning");
+        }
+
+        ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Ładowanie danych");
+        dialog.setCancelable(false);
+        dialog.show();
+
+
+        string = new TextView[]{
+                findViewById(R.id.stringChord1),
+                findViewById(R.id.stringChord2),
+                findViewById(R.id.stringChord3),
+                findViewById(R.id.stringChord4),
+                findViewById(R.id.stringChord5),
+                findViewById(R.id.stringChord6),
+        };
+
+        cc = new ChordsCollection();
+        cc.fetchChord(dialog, nameGroup, key);
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {//działanie aplikacji po pobraniu akordu
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                chord = cc.getChord();
+                if (cc != null) {
+                    Picasso.with(ShowChordActivity.this)
+                            .load(chord.getUrlSchema())
+                            .placeholder(R.mipmap.ic_guitar_round)
+                            .into(schemaChord);
+
+
+                    nameChord.setText(chord.getName());
+                    attempt = chord.getAttempt();
+                    allInChord = chord.getPoints();
+                    allForGroup = chord.getAllInGroup();
+                    allForUser = chord.getAllForUser();
+
+                    if (isLearning == 1) {//tryb nauki
+                        getPitch();
+                    } else if (isLearning == 0) {//tryb rankingu
+                        schemaChord.setVisibility(View.GONE);
+                        showSchema.setVisibility(View.VISIBLE);
+                        layoutButton.setVisibility(View.VISIBLE);
+                        //stoper
+                        startCountUp();
+                        getPitch();
+                    }
+                } else {
+                    finish();
+                    overridePendingTransition(0, 0);
+                    startActivity(new Intent(ShowChordActivity.this, LoginActivity.class));
+                    overridePendingTransition(0, 0);
+                }
+            }
+
+        });
+
+        showSchema.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSchema.setVisibility(View.GONE);
+                layoutButton.setVisibility(View.GONE);
+                schemaChord.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        closeThread();
+        super.onStop();
+    }
 
     @Override
     public void onBackPressed() {

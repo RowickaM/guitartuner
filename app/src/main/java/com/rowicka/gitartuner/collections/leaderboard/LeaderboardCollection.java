@@ -23,7 +23,6 @@ public class LeaderboardCollection {
     private Map<String, Object> collection;
     private ArrayList<Leaderboard> leaderCollection = new ArrayList<>();
 
-
     public LeaderboardCollection(String uid) {
         this.collection = new HashMap<>();
         this.UID = uid;
@@ -99,8 +98,8 @@ public class LeaderboardCollection {
 
     }
 
-    public void updateCollectionForUser(final String group,
-                                        final String chordName, final double points, final float pointsGroup,
+    public void updateCollectionForUser(final String group, final String chordName,
+                                        final double points, final float pointsGroup,
                                         final float pointsUser, final String iteration) {
 
         collection.put("attempt", iteration);
@@ -124,6 +123,7 @@ public class LeaderboardCollection {
                     }
                 });
     }
+
     public void getCollectionByUID(final ProgressDialog dialog){
         db.collection("leaderboard").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -173,6 +173,10 @@ public class LeaderboardCollection {
         });
     }
 
+    public ArrayList<Leaderboard> getLeaderCollection(){
+        return this.leaderCollection;
+    }
+
     private Map<String, Object> getStatistic(Map<String, Object> data) {
 
         Map<String, Object> statistic = new HashMap<>();
@@ -196,15 +200,12 @@ public class LeaderboardCollection {
 
         return statistic;
     }
+
     private User getUser(Map<String, Object> data){
         Log.d(TAG, "getUser: "+data.get("email"));
         return new User(Objects.requireNonNull(data.get("email")).toString(),
                 Objects.requireNonNull(data.get("nick")).toString(),
                 Objects.requireNonNull(data.get("avatar")).toString());
-    }
-
-    public ArrayList<Leaderboard> getLeaderCollection(){
-        return this.leaderCollection;
     }
 
 }

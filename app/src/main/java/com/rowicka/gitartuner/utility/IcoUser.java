@@ -1,16 +1,22 @@
 package com.rowicka.gitartuner.utility;
 
-public class IcoUser {
-    private String url, name;
-    private int resourceDisplay;
+import android.app.Activity;
+import android.widget.ImageView;
 
-    public IcoUser(String name, String url, int resourceDisplay){
-        this.name = name;
+public class IcoUser {
+    private String url;
+    private ImageView display;
+
+    public IcoUser(Activity activity, String url, int resourceDisplay){
         this.url = url;
-        this.resourceDisplay = resourceDisplay;
+        this.display = (ImageView) activity.findViewById(resourceDisplay);
     }
 
     public String getImgUrl() {
         return this.url;
+    }
+
+    public ImageView getDisplay() {
+        return display;
     }
 }

@@ -22,7 +22,7 @@
             android:orientation="horizontal"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingBottom="50dp">
+            android:paddingBottom="20dp">
 
             <Button
                 android:id="@+id/btnLowSpeed"
@@ -57,6 +57,20 @@
                 android:textSize="36sp" />
 
         </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:max="208"
+            style="@style/seekBar"
+            android:paddingStart="16dp"
+            android:paddingLeft="20dp"
+            android:paddingEnd="16dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="20dp"
+            android:progress="0" />
 
         <LinearLayout
             android:layout_width="350dp"
@@ -101,6 +115,7 @@
                 android:spinnerMode="dialog" />
 
         </LinearLayout>
+
     </LinearLayout>
     <include
         android:id="@+id/bottom_nav"

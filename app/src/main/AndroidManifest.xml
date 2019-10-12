@@ -33,9 +33,6 @@
             android:name=".learning.ListOfChordsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".utility.BeatsPoints"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".metronome.MetronomeActivity"
             android:screenOrientation="portrait" />
         <activity

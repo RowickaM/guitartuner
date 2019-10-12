@@ -83,18 +83,16 @@ public class Notes {
         return notes.size() == 6;
     }
 
-    public static String[] getNote(String frequencies) {
+    public static String[] getNote(String frequency) {
         if (!notes.isEmpty()) {
             for (String[] a : notes) {
 
                 float noteFreq = Float.parseFloat(a[1]); //częstotliwość dla danej struny
-                float freq = Float.parseFloat(frequencies);
+                float freq = Float.parseFloat(frequency);
                 float difference = (int) Math.round(noteFreq - freq);
 
-
-
-                if (Math.abs(difference) <= 20 ) { //|| Arrays.equals(a, notes.get(0)) || Arrays.equals(a, notes.get(6))
-                    return new String[]{a[0], String.valueOf(difference)};
+                if (Math.abs(difference) <= 20 ) {
+                    return new String[]{a[0], String.valueOf(difference), a[1]};
                 }
             }
         }

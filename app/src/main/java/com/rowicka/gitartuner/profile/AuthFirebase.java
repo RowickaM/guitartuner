@@ -1,7 +1,6 @@
 package com.rowicka.gitartuner.profile;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +15,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.rowicka.gitartuner.collections.leaderboard.LeaderboardCollection;
 import com.rowicka.gitartuner.collections.user.UsersCollection;
-import com.rowicka.gitartuner.learning.BasicLearningActivity;
 
 public class AuthFirebase {
 
@@ -37,20 +35,6 @@ public class AuthFirebase {
         firebaseAuth.signOut();
     }
 
-    private boolean checkPassword(String password, String repeatPassword) {
-        if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(repeatPassword)) {
-            if (password.equals(repeatPassword)) {
-                return true;
-            } else {
-                Toast.makeText(context, "Wprowadzone hasła są różne", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        } else {
-            Toast.makeText(context, "Wprowadzone hasła są różne", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    }
-
     public void userLogin(String email, String password) {
         password = password.trim();
         email = email.trim();
@@ -63,11 +47,15 @@ public class AuthFirebase {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
+                                FirebaseUser user = firebaseAuth.getCurrentUser();
                                 dialog.dismiss();
-                                context.startActivity(new Intent(context, BasicLearningActivity.class));
+                                updateUI(user);
+                                context.startActivity(new Intent(context, ProfileActivity.class));
                             }
                             else
-                                Toast.makeText(context, "Nie poprawne dane", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            updateUI(null);
+                            Toast.makeText(context, "Nie poprawne dane", Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -95,7 +83,6 @@ public class AuthFirebase {
 
                                 UsersCollection uc = new UsersCollection(user.getUid());
                                 uc.addUser(
-                                        user.getUid(),
                                         finalEmail);
 
                                 LeaderboardCollection lc = new LeaderboardCollection(user.getUid());
@@ -119,10 +106,24 @@ public class AuthFirebase {
         }
     }
 
+    private boolean checkPassword(String password, String repeatPassword) {
+        if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(repeatPassword)) {
+            if (password.equals(repeatPassword)) {
+                return true;
+            } else {
+                Toast.makeText(context, "Wprowadzone hasła są różne", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } else {
+            Toast.makeText(context, "Wprowadzone hasła są różne", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
     private void updateUI(FirebaseUser currentUser) {
 
         if (currentUser != null) {
-            context.startActivity(new Intent(context, BasicLearningActivity.class));
+            context.startActivity(new Intent(context, ProfileActivity.class));
         }
     }
 

@@ -45,6 +45,10 @@ public class ChordsCollection {
                 });
     }
 
+    public Chord getChord() {
+        return this.chord;
+    }
+
     private void queryAttempt(final Chord chord, final ProgressDialog dialog, final String groupName, final String chordName){
         final FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -81,12 +85,12 @@ public class ChordsCollection {
         Map<String, Object> array = new HashMap<>();
         array = (Map<String, Object>)result.get(name);
         if (array != null)
-        return new float[]{
-                Float.parseFloat(Objects.requireNonNull(array.get("attempt")).toString()),
-                Float.parseFloat(Objects.requireNonNull(array.get("points")).toString()),
-                allForGroup,
-                allForUser
-        };
+            return new float[]{
+                    Float.parseFloat(Objects.requireNonNull(array.get("attempt")).toString()),
+                    Float.parseFloat(Objects.requireNonNull(array.get("points")).toString()),
+                    allForGroup,
+                    allForUser
+            };
         else return null;
     }
 
@@ -109,7 +113,4 @@ public class ChordsCollection {
                 values[6].substring(7, values[6].length() - 1));
     }
 
-    public Chord getChord() {
-        return this.chord;
-    }
 }

@@ -13,10 +13,6 @@ public class ChordsGroup {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String[] getInclude() {
         return include;
     }

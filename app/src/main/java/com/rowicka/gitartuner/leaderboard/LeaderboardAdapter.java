@@ -29,7 +29,6 @@ public class LeaderboardAdapter extends ArrayAdapter<Leaderboard> {
                               @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<Leaderboard> list,
                                 String group) {
         super(context, 0, list);
-        Log.d(TAG, "LeaderboardAdapter: construktor");
         this.context = context;
         this.list = list;
         this.group = group;

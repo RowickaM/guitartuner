@@ -29,14 +29,159 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 
 public class TunerActivity extends Activity {
     Permission permission;
+    TextView[] strings;
+    ConstraintLayout[] stringsBack;
+    int frequencyReq = 0;
+    private int[] correctSeq = {0,0,0,0,0,0};
     private Thread audioThread;
     private AudioDispatcher dispatcher;
 
-    TextView[] strings;
-    ConstraintLayout[] stringsBack;
+    public void getPitch() {
 
-    int frequencyReq = 0;
-    private int[] correctSeq = {0,0,0,0,0,0};
+        dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
+
+        PitchDetectionHandler pdh = new PitchDetectionHandler() {
+            @Override
+            public void handlePitch(PitchDetectionResult res, AudioEvent e) {
+                final float pitchInHz = res.getPitch();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        processPitch(pitchInHz);
+
+                    }
+                });
+            }
+        };
+        AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
+        dispatcher.addAudioProcessor(pitchProcessor);
+
+        audioThread = new Thread(dispatcher, "Audio Thread");
+        audioThread.start();
+    }
+
+    public void checkPitch(final int position) {
+
+        dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
+
+        PitchDetectionHandler pdh = new PitchDetectionHandler() {
+            @Override
+            public void handlePitch(PitchDetectionResult res, AudioEvent e) {
+                final float pitchInHz = res.getPitch();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < correctSeq.length; i++) {
+                            if (correctSeq[i] == 1) {
+                                setChosenAndCorrect(i);
+                            }
+                        }
+                        TextView correctText = (TextView) findViewById(R.id.correctPitch);
+                        correctText.setText(String.valueOf(frequencyReq));
+                        process(pitchInHz, position);
+                    }
+                });
+            }
+        };
+
+        AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
+        dispatcher.addAudioProcessor(pitchProcessor);
+
+        audioThread = new Thread(dispatcher, "Audio Thread");
+        audioThread.start();
+    }
+
+    public void clearStringsColor() {
+        for (int i = 0; i < stringsBack.length; i++) {
+            setNotChosenAndNotCorrect(i);
+            correctSeq[i] = 0;
+        }
+    }
+
+    public void setChosenAndCorrect(int position) {
+        stringsBack[position].setBackground(getResources().getDrawable(R.drawable.ic_circle_yellow_green));
+        strings[position].setTextColor(getResources().getColor(R.color.text));
+        correctSeq[position] = 1;
+    }
+
+    public void setNotChosenAndCorrect(int position) {
+        stringsBack[position].setBackground(getResources().getDrawable(R.drawable.ic_circle_green));
+        strings[position].setTextColor(getResources().getColor(R.color.green));
+    }
+
+    public void setChosenAndNotCorrect(int position) {
+        stringsBack[position].setBackground(getResources().getDrawable(R.drawable.ic_circle_accent));
+        strings[position].setTextColor(getResources().getColor(R.color.colorAccent));
+        correctSeq[position] = 0;
+    }
+
+    public void setNotChosenAndNotCorrect(int position) {
+        stringsBack[position].setBackground(getResources().getDrawable(R.drawable.ic_circle_yellow));
+        strings[position].setTextColor(getResources().getColor(R.color.text));
+    }
+
+    public void processPitch(float pitchInHz) {
+        TextView pitchText = (TextView) findViewById(R.id.pitchText);
+        String[] array = Notes.getNote(String.valueOf(pitchInHz));
+        for (int i = 0; i < correctSeq.length; i++) {
+            if (correctSeq[i] == 1) {
+                setNotChosenAndCorrect(i);
+            }else{
+                setNotChosenAndNotCorrect(i);
+            }
+        }
+        if (array != null) {
+            TextView correctText = (TextView) findViewById(R.id.correctPitch);
+            correctText.setText(array[2]);
+            if (Float.parseFloat(array[1]) == 0) {
+                pitchText.setText(array[1]);
+                setChosenAndCorrect(Notes.positionOfString(array[0]));
+            } else {
+                setChosenAndNotCorrect(Notes.positionOfString(array[0]));
+                String s = String.valueOf(array[1].charAt(0));
+                if (s.equals("-")) {
+                    pitchText.setText(array[1]);
+                } else {
+                    pitchText.setText("+"+array[1]);
+                }
+            }
+
+//        } else {
+//            pitchText.setText(" ");
+        }
+
+    }
+
+    public void process(float pitchInHz, int position) {
+        TextView pitchText = (TextView) findViewById(R.id.pitchText);
+        for (int i = 0; i < correctSeq.length; i++) {
+            if (correctSeq[i] == 1) {
+                setNotChosenAndCorrect(i);
+            }else{
+                setNotChosenAndNotCorrect(i);
+            }
+        }
+        if ((pitchInHz > -1.0)) {
+            int diff = (int) (pitchInHz - frequencyReq);
+
+            if (diff == 0) {
+                pitchText.setText(String.valueOf(diff));
+                setChosenAndCorrect(position);
+            } else if (correctSeq[position] == 0){
+                setChosenAndNotCorrect(position);
+                if (pitchInHz - frequencyReq > 0) {
+                    pitchText.setText("+"+diff);
+                } else {
+                    pitchText.setText(String.valueOf(diff));
+                }
+            }
+
+//        } else {
+//            pitchText.setText(" ");
+        }
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,150 +305,6 @@ public class TunerActivity extends Activity {
         clearStringsColor();
         closeThread();
         super.onStop();
-    }
-
-    public void getPitch() {
-
-        dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
-
-        PitchDetectionHandler pdh = new PitchDetectionHandler() {
-            @Override
-            public void handlePitch(PitchDetectionResult res, AudioEvent e) {
-                final float pitchInHz = res.getPitch();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        processPitch(pitchInHz);
-
-                    }
-                });
-            }
-        };
-        AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
-        dispatcher.addAudioProcessor(pitchProcessor);
-
-        audioThread = new Thread(dispatcher, "Audio Thread");
-        audioThread.start();
-    }
-
-
-    public void checkPitch(final int position) {
-
-        dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
-
-        PitchDetectionHandler pdh = new PitchDetectionHandler() {
-            @Override
-            public void handlePitch(PitchDetectionResult res, AudioEvent e) {
-                final float pitchInHz = res.getPitch();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < correctSeq.length; i++) {
-                            if (correctSeq[i] == 1) {
-                                setChosenAndCorrect(i);
-                            }
-                        }
-                        process(pitchInHz, position);
-                    }
-                });
-            }
-        };
-
-        AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
-        dispatcher.addAudioProcessor(pitchProcessor);
-
-        audioThread = new Thread(dispatcher, "Audio Thread");
-        audioThread.start();
-    }
-
-    public void clearStringsColor() {
-        for (int i = 0; i < stringsBack.length; i++) {
-            setNotChosenAndNotCorrect(i);
-            correctSeq[i] = 0;
-        }
-    }
-
-    public void setChosenAndCorrect(int position) {
-        stringsBack[position].setBackground(getResources().getDrawable(R.drawable.ic_circle_yellow_green));
-        strings[position].setTextColor(getResources().getColor(R.color.text));
-        correctSeq[position] = 1;
-    }
-
-    public void setNotChosenAndCorrect(int position) {
-        stringsBack[position].setBackground(getResources().getDrawable(R.drawable.ic_circle_green));
-        strings[position].setTextColor(getResources().getColor(R.color.green));
-    }
-
-    public void setChosenAndNotCorrect(int position) {
-        stringsBack[position].setBackground(getResources().getDrawable(R.drawable.ic_circle_accent));
-        strings[position].setTextColor(getResources().getColor(R.color.colorAccent));
-        correctSeq[position] = 0;
-    }
-
-    public void setNotChosenAndNotCorrect(int position) {
-        stringsBack[position].setBackground(getResources().getDrawable(R.drawable.ic_circle_yellow));
-        strings[position].setTextColor(getResources().getColor(R.color.text));
-    }
-
-    public void processPitch(float pitchInHz) {
-        TextView pitchText = (TextView) findViewById(R.id.pitchText);
-        String[] array = Notes.getNote(String.valueOf(pitchInHz));
-        for (int i = 0; i < correctSeq.length; i++) {
-            if (correctSeq[i] == 1) {
-                setNotChosenAndCorrect(i);
-            }else{
-                setNotChosenAndNotCorrect(i);
-            }
-        }
-        if (array != null) {
-
-            if (Float.parseFloat(array[1]) == 0) {
-                pitchText.setText(array[1]);
-                setChosenAndCorrect(Notes.positionOfString(array[0]));
-            } else {
-                setChosenAndNotCorrect(Notes.positionOfString(array[0]));
-                String s = String.valueOf(array[1].charAt(0));
-                if (s.equals("-")) {
-                    pitchText.setText(array[1]);
-                } else {
-                    pitchText.setText("+"+array[1]);
-                }
-            }
-
-        } else {
-            pitchText.setText(" ");
-        }
-
-    }
-
-    public void process(float pitchInHz, int position) {
-        TextView pitchText = (TextView) findViewById(R.id.pitchText);
-        for (int i = 0; i < correctSeq.length; i++) {
-            if (correctSeq[i] == 1) {
-                setNotChosenAndCorrect(i);
-            }else{
-                setNotChosenAndNotCorrect(i);
-            }
-        }
-        if ((pitchInHz > -1.0)) {
-            int diff = (int) (pitchInHz - frequencyReq);
-
-            if (diff == 0) {
-                pitchText.setText(String.valueOf(diff));
-                setChosenAndCorrect(position);
-            } else if (correctSeq[position] == 0){
-                setChosenAndNotCorrect(position);
-                if (pitchInHz - frequencyReq > 0) {
-                    pitchText.setText("+"+diff);
-                } else {
-                    pitchText.setText(String.valueOf(diff));
-                }
-            }
-
-        } else {
-            pitchText.setText(" ");
-        }
-
     }
 
     @TargetApi(Build.VERSION_CODES.M)

@@ -20,8 +20,6 @@ public class BasicLearningActivity extends Activity {
 
     private ArrayList<ChordsGroup> list;
 
-    private static final String TAG = "BasicLearningActivity";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
