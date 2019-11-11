@@ -18,8 +18,6 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.rowicka.gitartuner.collections.chords.ChordsCollection;
-import com.rowicka.gitartuner.collections.leaderboard.LeaderboardCollection;
 import com.rowicka.gitartuner.tuner.TunerActivity;
 import com.rowicka.gitartuner.utility.Permission;
 

@@ -2,7 +2,6 @@
     <array name="permissions">
         <item>mikrofon - pozwoli na poprawne działanie stroika
             oraz rozpoznawania poprawności granych akordów</item>
-
     </array>
     <array name="tune">
         <item>E A D G H e</item>
@@ -32,6 +31,16 @@
         <item>PRESTO</item>
         <item>PRESTISSIMO</item>
     </array>
+    <array name="about">
+        <item>Ikona metronomu - użytkownik Freepik</item>
+        <item>Ikona gitary - użytkownik Freepik</item>
+        <item>Ikona trofeum - użytkownik Freepik</item>
+        <item>Ikona informacji - użytkownik Freepik</item>
+        <item>Ikona książki - użytkownik Good Ware</item>
+        <item>Ikona owali - użytkownik Smashicons</item>
+        <item>Ikony avatarów użytkowników - użytkownik Roundicons</item>
+    </array>
+    <string name="header_info">Ikony pochodzą od użytkowników strony FLATICON.</string>
     <string name="app_name">TuneMeUp</string>
     <string name="start_string">Do poprawnego działania aplikacji wymagane są następujące pozwolenia:</string>
     <string name="subtract">-</string>
@@ -39,6 +48,7 @@
     <string name="tuner">Stroik</string>
     <string name="metronome">Metronom</string>
     <string name="chord">Akordy</string>
+    <string name="info">O aplikacji</string>
     <string name="registrationText">Nie posiadasz konta? Zarejestruj się tutaj</string>
     <string name="loginText">Posiadasz już konto? Zaloguj się tutaj</string>
     <string name="all">Wszystkie</string>
