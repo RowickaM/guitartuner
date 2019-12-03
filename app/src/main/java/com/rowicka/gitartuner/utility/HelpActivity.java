@@ -1,13 +1,10 @@
-package com.rowicka.gitartuner;
+package com.rowicka.gitartuner.utility;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.google.rpc.Help;
-import com.rowicka.gitartuner.learning.ShowChordActivity;
-import com.rowicka.gitartuner.utility.NavigationBottom;
-import com.rowicka.gitartuner.utility.NavigationTop;
+import com.rowicka.gitartuner.R;
 import com.squareup.picasso.Picasso;
 
 public class HelpActivity extends Activity {

@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_guitar_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.NoActionBar.Fullscreen">
-        <activity android:name=".HelpActivity"></activity>
+        <activity android:name=".utility.HelpActivity"></activity>
         <activity android:name=".utility.InfoActivity" />
         <activity
             android:name=".leaderboard.LeaderboardActivity"
