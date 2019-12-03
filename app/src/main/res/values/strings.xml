@@ -36,9 +36,11 @@
         <item>Ikona gitary - użytkownik Freepik</item>
         <item>Ikona trofeum - użytkownik Freepik</item>
         <item>Ikona informacji - użytkownik Freepik</item>
+        <item>Ikona pomocy - użytkownik Freepik</item>
         <item>Ikona książki - użytkownik Good Ware</item>
         <item>Ikona owali - użytkownik Smashicons</item>
         <item>Ikony avatarów użytkowników - użytkownik Roundicons</item>
+        <item>Obraz ręki - https://beznut.com/static/upload/store/akordy/schematy/lewa_reka.png</item>
     </array>
     <string name="header_info">Ikony pochodzą od użytkowników strony FLATICON.</string>
     <string name="app_name">TuneMeUp</string>
@@ -59,4 +61,19 @@
     <string name="group5">Grupa 5</string>
     <string name="note">E</string>
     <string name="auto">Auto</string>
+    <string name="helpChord">
+        Schemat akordu to tak naprawdę rysunek przedstawiający wycinek gryfu.\n\n
+        Poziome linie to struny, pionowe  to progi.
+        X oznacza że struna nie jest grana, a liczba rzymska wpisywana przy pierwszym oznaczeniu progu określa, który to próg na gitarze.\n\n
+        Jeśli takiego oznaczenia nie ma, znaczy to tylko tyle, że schemat zaczyna się od pierwszego progu.
+    </string>
+    <string name="secondHelp">
+        Kółeczka to palce, które powinny się w danym miejscu znaleźć,
+        a kolory to  oznaczenia konkretnych palców lewej ręki:\n
+        1 – palec wskazujący\n
+        2 – palec środkowy\n
+        3 – palec serdeczny\n
+        4 – palec mały\n
+        Kciuk nie jest opisywany, ponieważ jest on odpowiedzialny za dociskanie gryfu z drugiej strony.\n
+        </string>
 </resources>

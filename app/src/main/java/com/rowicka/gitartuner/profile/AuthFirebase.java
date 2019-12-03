@@ -52,10 +52,11 @@ public class AuthFirebase {
                                 updateUI(user);
                                 context.startActivity(new Intent(context, ProfileActivity.class));
                             }
-                            else
+                            else {
                                 dialog.dismiss();
-                            updateUI(null);
-                            Toast.makeText(context, "Nie poprawne dane", Toast.LENGTH_SHORT).show();
+                                updateUI(null);
+                                Toast.makeText(context, "Nie poprawne dane", Toast.LENGTH_SHORT).show();
+                            }
 
                         }
                     });

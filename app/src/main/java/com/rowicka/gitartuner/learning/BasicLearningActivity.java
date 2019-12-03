@@ -40,10 +40,10 @@ public class BasicLearningActivity extends Activity {
         list = new ArrayList<>();
 
         list.add(new ChordsGroup("Grupa 1", "D-dur;E-moll;G-dur"));
-        list.add(new ChordsGroup("grupa2", "A-dur;A-moll;C-dur;E-dur"));
-        list.add(new ChordsGroup("grupa3", "D-moll;F-dur;A7;E5;E7"));
-        list.add(new ChordsGroup("grupa4", "A5;C5;D5;G5"));
-        list.add(new ChordsGroup("grupa5", "G-moll;C-moll;B7;D7;G7"));
+        list.add(new ChordsGroup("Grupa 2", "A-dur;A-moll;C-dur;E-dur"));
+        list.add(new ChordsGroup("Grupa 3", "D-moll;F-dur;A7;E5;E7"));
+        list.add(new ChordsGroup("Grupa 4", "A5;C5;D5;G5"));
+        list.add(new ChordsGroup("Grupa 5", "G-moll;C-moll;B7;D7;G7"));
 
         ChordsGroupAdapter chordsGroupAdapter = new ChordsGroupAdapter(BasicLearningActivity.this, list);
         listView.setAdapter(chordsGroupAdapter);

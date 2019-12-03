@@ -32,7 +32,6 @@
             android:layout_width="44dp"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_trophy" />
-
         <Button
             android:id="@+id/logoutButton"
             android:layout_width="wrap_content"
@@ -41,6 +40,12 @@
             android:background="@android:color/transparent"
             android:text="Wyloguj"
             android:textColor="@color/common_google_signin_btn_text_dark_default" />
+        <Button
+            android:id="@+id/toHelp"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_information" />
     </LinearLayout>
 
 </LinearLayout>

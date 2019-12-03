@@ -24,8 +24,6 @@ import com.rowicka.gitartuner.utility.Permission;
 
 public class MainActivity extends Activity {
     Permission permission;
-
-    //todo wyświetlam dany schemat i kazuje pociągnąć po kolei struny - moze?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

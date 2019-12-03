@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+
+import com.rowicka.gitartuner.HelpActivity;
 import com.rowicka.gitartuner.R;
 import com.rowicka.gitartuner.leaderboard.LeaderboardActivity;
 import com.rowicka.gitartuner.learning.BasicLearningActivity;
@@ -19,11 +21,24 @@ public class NavigationTop {
         Button back = (Button) activity.findViewById(R.id.backButton);
         Button logout = (Button) activity.findViewById(R.id.logoutButton);
         Button leaderboard = (Button) activity.findViewById(R.id.toLeaderboard);
+        Button help = (Button) activity.findViewById(R.id.toHelp);
         Button profile = (Button) activity.findViewById(R.id.toProfile);
 
-        if (activity.getClass().equals(BasicLearningActivity.class)){
+        if (activity.getClass().equals(BasicLearningActivity.class) || activity.getClass().equals(HelpActivity.class)){
             back.setVisibility(View.INVISIBLE);
         }
+
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!activity.getClass().equals(HelpActivity.class)){
+                    activity.finish();
+                    activity.overridePendingTransition(0, 0);
+                    activity.startActivity(new Intent(activity, HelpActivity.class));
+                    activity.overridePendingTransition(0, 0);
+                }
+            }
+        });
 
         profile.setOnClickListener(new View.OnClickListener() {
             @Override

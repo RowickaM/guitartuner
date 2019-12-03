@@ -5,6 +5,7 @@ public class ChordsGroup {
     private String[] include;
 
     public ChordsGroup(String name, String include) {
+
         this.name = name;
         this.include=include.split(";");
     }

@@ -10,7 +10,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.rowicka.gitartuner.learning.chord.Chord;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -95,22 +98,26 @@ public class ChordsCollection {
     }
 
     private Chord getValuesOfKeyChord(QueryDocumentSnapshot document, String key) {
-        String[] values = Objects.requireNonNull(document.get(key)).toString().split(",");
-        values[0] = values[0].substring(2, values[0].length());
-        values[5] = values[5].substring(0, values[5].length() - 1);
-        values[6] = values[6].trim().substring(1, values[6].length() - 2);
+
+        Map<String, Object> objJSON = new HashMap<>();
+        objJSON = (Map<String, Object>) document.getData();
+        ArrayList array = (ArrayList) objJSON.get(key);
+        HashMap schema = (HashMap) array.get(1);
+        HashMap correctFreq = (HashMap) array.get(0);
+
 
         return new Chord(
                 key,
-                new String[]{
-                        values[0].split("=")[1],
-                        values[5].split("=")[1],
-                        values[3].split("=")[1],
-                        values[2].split("=")[1],
-                        values[4].split("=")[1],
-                        values[1].split("=")[1]
+                new String[]{ // wymagane częstotliwości
+                        (String) correctFreq.get("StringE"),
+                        (String) correctFreq.get("StringA"),
+                        (String) correctFreq.get("StringD"),
+                        (String) correctFreq.get("StringG"),
+                        (String) correctFreq.get("StringH"),
+                        (String) correctFreq.get("StringE"),
                 },
-                values[6].substring(7, values[6].length() - 1));
+                schema.get("schema").toString()//schemat
+        );
     }
 
 }
