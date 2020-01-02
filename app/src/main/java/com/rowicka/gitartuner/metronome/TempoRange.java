@@ -2,12 +2,12 @@ package com.rowicka.gitartuner.metronome;
 
 import java.util.ArrayList;
 
-public class TempoRange {
+class TempoRange {
 
     private ArrayList<TempoStatistic> array;
 
-    public TempoRange() {
-        array = new ArrayList<TempoStatistic>();
+    TempoRange() {
+        array = new ArrayList<>();
         array.add(new TempoStatistic("LARGO", 40, 60));
         array.add(new TempoStatistic("LARGHETTO", 60, 66));
         array.add(new TempoStatistic("ADAGIO", 66, 76));
@@ -24,7 +24,7 @@ public class TempoRange {
      * @return zwraca obiekt TempoStatic jeśli znajdzie w liście nazwę pasującą do podanej
      * w innym przypadku zwróci null
      */
-    public TempoStatistic getTempo(String name){
+    TempoStatistic getTempo(String name){
         if (array != null) {
             for (TempoStatistic ts : array) {
                 if (ts.getName().equalsIgnoreCase(name)) {

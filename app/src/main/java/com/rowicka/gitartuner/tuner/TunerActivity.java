@@ -347,7 +347,6 @@ public class TunerActivity extends Activity {
         super.onStop();
     }
 
-    /*todo sprawdzić w dokumentacji*/
     /**
      * Funkcja odpowiedzialna za sprawdzednie nadania pozwolenia
      * @param requestCode kod pozwolenia

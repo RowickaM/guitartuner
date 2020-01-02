@@ -23,7 +23,7 @@ import java.util.List;
 public class ChordsAdapter extends ArrayAdapter<Chords> {
 
     private Context context;
-    private List<Chords> list = new ArrayList<>();
+    private List<Chords> list;
 
     public ChordsAdapter(@NonNull Context context, @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<Chords> list) {
         super(context, 0, list);
@@ -48,7 +48,7 @@ public class ChordsAdapter extends ArrayAdapter<Chords> {
 
         Chords chordsCurrent = list.get(position);
 
-        TextView name = (TextView) listItem.findViewById(R.id.nameChordTV);
+        TextView name = listItem.findViewById(R.id.nameChordTV);
         name.setText(chordsCurrent.getName());
 
         return listItem;

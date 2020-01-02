@@ -2,7 +2,7 @@ package com.rowicka.gitartuner.tuner;
 
 import java.util.ArrayList;
 
-public class Notes {
+class Notes {
     /**
      * notes - lista tablic stringów mówiąca o nazwie struny i waganej częstotliwości
      */
@@ -13,7 +13,7 @@ public class Notes {
      * strój EADGHe
      * @return zwraca tru jeśli długość listy jest równa 6, w innym przypadku zwróci false
      */
-    public static boolean fillNotesStandard() {
+    static boolean fillNotesStandard() {
         notes = new ArrayList<>();
 
         String[] note;
@@ -44,7 +44,7 @@ public class Notes {
      * strój DGCFAD
      * @return zwraca tru jeśli długość listy jest równa 6, w innym przypadku zwróci false
      */
-    public static boolean fillNotesDropD() {
+    static boolean fillNotesDropD() {
         notes = new ArrayList<>();
 
         String[] note;
@@ -74,7 +74,7 @@ public class Notes {
      * strój EbG#C#F#BbEb
      * @return zwraca tru jeśli długość listy jest równa 6, w innym przypadku zwróci false
      */
-    public static boolean fillNotesEFlat() {
+    static boolean fillNotesEFlat() {
         notes = new ArrayList<>();
 
         String[] note;
@@ -109,12 +109,12 @@ public class Notes {
      * trzecia wartość to wymagana częstotliwość
      * jeśli żadana z dostępnych częstotliwości nie odpowiada przedziałowi błędu (+/-) 10 to zwraca null
      */
-    public static String[] getNote(String frequency) {
+    static String[] getNote(String frequency) {
         if (!notes.isEmpty()) {
             for (String[] a : notes) {
                 float noteFreq = Float.parseFloat(a[1]); //częstotliwość dla danej struny
                 float freq = Float.parseFloat(frequency);
-                float difference = (int) Math.round(noteFreq - freq);
+                float difference = Math.round(noteFreq - freq);
                 if (Math.abs(difference) <= 10 ) {
                     return new String[]{a[0], String.valueOf(difference), a[1]};
                 }
@@ -127,7 +127,7 @@ public class Notes {
      *
      * @return zwraca listę nazwy strun i ich wymaganych częstotliwości
      */
-    public static ArrayList<String[]> getArray(){
+    static ArrayList<String[]> getArray(){
         return notes;
     }
 
@@ -136,7 +136,7 @@ public class Notes {
      * @param note nazwa struny
      * @return zwraca pozycje struny w liście strun na podstawie nazwy struny
      */
-    public static int positionOfString(String note){
+    static int positionOfString(String note){
         if (!notes.isEmpty()){
             for ( int i = 0; i< notes.size(); i++){
                 if (notes.get(i)[0].equals(note)){

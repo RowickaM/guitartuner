@@ -90,13 +90,15 @@ public class ChordsCollection {
                             for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                 if (document.getId().equals(Objects.requireNonNull(auth.getCurrentUser()).getUid())) {
                                     float[] result = getValueOfArray(
-                                            (Map<String, Object>) document.getData(),
+                                            document.getData(),
                                             (Map<String, Object>) Objects.requireNonNull(document.get(groupName)),
                                             chordName);
-                                    chord.setAttemptAndPoints(result[0], result[1]);
-                                    chord.setAllInGroup(result[2]);
-                                    chord.setAllForUser(result[3]);
-                                    dialog.dismiss();
+                                    if (result != null) {
+                                        chord.setAttemptAndPoints(result[0], result[1]);
+                                        chord.setAllInGroup(result[2]);
+                                        chord.setAllForUser(result[3]);
+                                        dialog.dismiss();
+                                    }
                                 }
                             }
 
@@ -123,8 +125,8 @@ public class ChordsCollection {
         float allForUser = Float.parseFloat(Objects.requireNonNull(all.get("all")).toString());
         float allForGroup = Float.parseFloat(Objects.requireNonNull(result.get("all")).toString());
 
-        Map<String, Object> array = new HashMap<>();
-        array = (Map<String, Object>)result.get(name);
+        Map<String, Object> array;
+        array = (Map<String, Object>) result.get(name);
         if (array != null)
             return new float[]{
                     Float.parseFloat(Objects.requireNonNull(array.get("attempt")).toString()),
@@ -143,23 +145,28 @@ public class ChordsCollection {
      * @return obiekt typu Chord z wartościami wymaganych częstotliwości oraz przypisanym schematem do akordu
      */
     private Chord getValuesOfKeyChord(QueryDocumentSnapshot document, String key) {
-        Map<String, Object> objJSON = new HashMap<>();
-        objJSON = (Map<String, Object>) document.getData();
+        Map<String, Object> objJSON;
+        objJSON = document.getData();
         ArrayList array = (ArrayList) objJSON.get(key);
-        HashMap schema = (HashMap) array.get(1);
-        HashMap correctFreq = (HashMap) array.get(0);
-        return new Chord(
-                key,
-                new String[]{ // wymagane częstotliwości
-                        (String) correctFreq.get("StringE"),
-                        (String) correctFreq.get("StringA"),
-                        (String) correctFreq.get("StringD"),
-                        (String) correctFreq.get("StringG"),
-                        (String) correctFreq.get("StringH"),
-                        (String) correctFreq.get("Stringe"),
-                },
-                schema.get("schema").toString()//schemat
-        );
+        HashMap schema;
+        if (array != null) {
+            schema = (HashMap) array.get(1);
+
+            HashMap correctFreq = (HashMap) array.get(0);
+            return new Chord(
+                    key,
+                    new String[]{ // wymagane częstotliwości
+                            (String) correctFreq.get("StringE"),
+                            (String) correctFreq.get("StringA"),
+                            (String) correctFreq.get("StringD"),
+                            (String) correctFreq.get("StringG"),
+                            (String) correctFreq.get("StringH"),
+                            (String) correctFreq.get("Stringe"),
+                    },
+                    schema.get("schema").toString()//schemat
+            );
+        }
+        return null;
     }
 
 }

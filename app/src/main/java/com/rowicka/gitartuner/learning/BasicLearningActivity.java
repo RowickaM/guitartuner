@@ -33,7 +33,7 @@ public class BasicLearningActivity extends Activity {
 
         AuthFirebase auth = new AuthFirebase(this);
 
-        ListView listView = (ListView) findViewById(R.id.chordsGroupList);
+        ListView listView = findViewById(R.id.chordsGroupList);
         list = new ArrayList<>();
 
         list.add(new ChordsGroup("Grupa 1", "D-dur;E-moll;G-dur"));

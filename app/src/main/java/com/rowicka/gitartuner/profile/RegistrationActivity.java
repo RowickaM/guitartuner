@@ -27,11 +27,11 @@ public class RegistrationActivity extends Activity {
 
         final AuthFirebase auth = new AuthFirebase(this);
 
-        login = (EditText) findViewById(R.id.loginSignup);
-        password = (EditText) findViewById(R.id.passwordSignup);
-        passwordRepeat = (EditText) findViewById(R.id.passwordRepeatSignup);
-        loginButton = (Button) findViewById(R.id.registerButton);
-        toLogin = (TextView) findViewById(R.id.toLogin);
+        login = findViewById(R.id.loginSignup);
+        password = findViewById(R.id.passwordSignup);
+        passwordRepeat = findViewById(R.id.passwordRepeatSignup);
+        loginButton = findViewById(R.id.registerButton);
+        toLogin = findViewById(R.id.toLogin);
 
         toLogin.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -159,8 +159,8 @@ public class ShowChordActivity extends Activity {
      * zwraca false jeśli któraś ze strun jest zaznaczona jako niepoprawna
      */
     private boolean allIsCorrect() {
-        for (int i = 0; i < correctSeq.length; i++) {
-            if (correctSeq[i] == 0) {
+        for (int value : correctSeq) {
+            if (value == 0) {
                 return false;
             }
         }
@@ -293,7 +293,7 @@ public class ShowChordActivity extends Activity {
             }
         } else if (min < 1) {
             score += 100;
-        } else if (min >= 1 && min < 2) {
+        } else if (min == 1) {
             score += 50;
         }
 
@@ -387,11 +387,11 @@ public class ShowChordActivity extends Activity {
         new NavigationBottom(this);
         new NavigationTop(this);
 
-        nameChord = (TextView) findViewById(R.id.chordName);
-        schemaChord = (ImageView) findViewById(R.id.chordSchema);
+        nameChord = findViewById(R.id.chordName);
+        schemaChord = findViewById(R.id.chordSchema);
         chronometer = findViewById(R.id.stopWatchView);
-        showSchema = (Button) findViewById(R.id.showSchemaBtn);
-        layoutButton = (LinearLayout) findViewById(R.id.layoutButton);
+        showSchema = findViewById(R.id.showSchemaBtn);
+        layoutButton = findViewById(R.id.layoutButton);
 
         handler = new Handler();
 

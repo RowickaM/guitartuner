@@ -11,7 +11,7 @@ public class Metronome implements Runnable {
     private boolean start = false;
     private final MediaPlayer beat1, beat2;
 
-    public Metronome(Activity activity, double bpm, int measure) {
+    Metronome(Activity activity, double bpm, int measure) {
         this.bpm = bpm;
         this.measure = measure;
         beat1 = MediaPlayer.create(activity, R.raw.beat1);
@@ -19,11 +19,11 @@ public class Metronome implements Runnable {
 
     }
 
-    public void setBpm(double bpm) {
+    void setBpm(double bpm) {
         this.bpm = bpm;
     }
 
-    public void setMeasure(double measure) {
+    void setMeasure(double measure) {
         this.measure = measure;
     }
 
@@ -42,7 +42,7 @@ public class Metronome implements Runnable {
     /**
      * Funkcja odpowiedzialna za poprawne wyzerowania stanu zmienneych po wyłączeniu wątku
      */
-    public void stopMetronome(){
+    void stopMetronome(){
         this.start = false;
         this.counter=0;
     }

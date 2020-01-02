@@ -29,13 +29,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView list = (ListView) findViewById(R.id.listView);
+        ListView list = findViewById(R.id.listView);
         String[] permissions = getResources().getStringArray(R.array.permissions);
 
-        ArrayList<String> permissionsL = new ArrayList<String>(Arrays.asList(permissions));
+        ArrayList<String> permissionsL = new ArrayList<>(Arrays.asList(permissions));
 
         ArrayAdapter<String> adapter;
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, permissionsL);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, permissionsL);
 
         list.setAdapter(adapter);
     }
@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
         super.onStart();
         permission = new Permission(this);
 
-        Button permissionGrantedButton = (Button) findViewById(R.id.permissionButton);
+        Button permissionGrantedButton = findViewById(R.id.permissionButton);
 
         //sprawdza czy zostały nadane już pozwolenia
         permission.permissions();
@@ -99,5 +99,3 @@ public class MainActivity extends Activity {
         }
     }
 }
-/*todo javadoc od folderu utility*/
-/*todo javadoc getter i setter od folderu learning */

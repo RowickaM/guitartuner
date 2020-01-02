@@ -47,7 +47,7 @@ public class ListOfChordsActivity extends Activity {
             keys = Objects.requireNonNull(bundle.getString("keys")).split(";");
         }
 
-        ListView listView = (ListView) findViewById(R.id.chordsGroupList);
+        ListView listView = findViewById(R.id.chordsGroupList);
 
         ArrayList<Chords> list = new ArrayList<>();
         for (String key : keys) {

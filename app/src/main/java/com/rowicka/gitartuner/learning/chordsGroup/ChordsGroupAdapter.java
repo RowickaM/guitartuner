@@ -20,7 +20,7 @@ import java.util.List;
 public class ChordsGroupAdapter extends ArrayAdapter<ChordsGroup> {
 
     private Context context;
-    private List<ChordsGroup> list = new ArrayList<>();
+    private List<ChordsGroup> list;
 
     public ChordsGroupAdapter(@NonNull Context context, @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<ChordsGroup> list) {
         super(context, 0, list);
@@ -45,10 +45,10 @@ public class ChordsGroupAdapter extends ArrayAdapter<ChordsGroup> {
 
         ChordsGroup chordsGroupCurrent = list.get(position);
 
-        TextView name = (TextView) listItem.findViewById(R.id.nameGroupTV);
+        TextView name = listItem.findViewById(R.id.nameGroupTV);
         name.setText(chordsGroupCurrent.getName());
 
-        TextView set = (TextView) listItem.findViewById(R.id.includeTV);
+        TextView set = listItem.findViewById(R.id.includeTV);
         StringBuilder sb = new StringBuilder();
         for (String str: chordsGroupCurrent.getInclude()){
             sb.append(str);

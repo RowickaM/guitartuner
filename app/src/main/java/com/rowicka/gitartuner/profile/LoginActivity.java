@@ -36,10 +36,10 @@ public class LoginActivity extends Activity {
             overridePendingTransition(0, 0);
         }
 
-        login = (EditText) findViewById(R.id.login);
-        password = (EditText) findViewById(R.id.password);
-        loginButton = (Button) findViewById(R.id.loginButton);
-        toRegistration = (TextView) findViewById(R.id.toRegistration);
+        login = findViewById(R.id.login);
+        password = findViewById(R.id.password);
+        loginButton = findViewById(R.id.loginButton);
+        toRegistration = findViewById(R.id.toRegistration);
 
         toRegistration.setOnClickListener(new View.OnClickListener() {
             @Override

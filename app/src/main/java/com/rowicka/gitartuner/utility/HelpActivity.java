@@ -18,9 +18,9 @@ public class HelpActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
-        ImageView img1 = (ImageView)findViewById(R.id.imageView4);
-        ImageView img2 = (ImageView)findViewById(R.id.imageView5);
-        ImageView img3 = (ImageView)findViewById(R.id.imageView);
+        ImageView img1 = findViewById(R.id.imageView4);
+        ImageView img2 = findViewById(R.id.imageView5);
+        ImageView img3 = findViewById(R.id.imageView);
 
         new NavigationTop(this);
         new NavigationBottom(this);

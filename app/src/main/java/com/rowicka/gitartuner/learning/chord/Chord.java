@@ -27,7 +27,7 @@ public class Chord {
     public boolean isCorrect(String frequency, int position){
         float correct = Float.parseFloat(correctFrequency[position]);
         float actual = Float.parseFloat(frequency);
-        float difference = (int) Math.round(correct - actual);
+        float difference = Math.round(correct - actual);
         if (correct == 0){
             return true;
         }

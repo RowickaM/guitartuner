@@ -2,14 +2,12 @@ package com.rowicka.gitartuner.metronome;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rowicka.gitartuner.R;
 import com.rowicka.gitartuner.utility.NavigationBottom;
@@ -23,7 +21,6 @@ public class MetronomeActivity extends Activity {
     TextView bpmView;
     SeekBar seekBar;
     double measure, bpm;
-    private static final String TAG = "MetronomeActivity";
 
     /**
      * Funkcja zmienia wartość tempa
@@ -54,13 +51,13 @@ public class MetronomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_metronome);
 
-        switchButton = (Button) findViewById(R.id.switchButton);
-        upButton = (Button) findViewById(R.id.btnHighSpeed);
-        downButton = (Button) findViewById(R.id.btnLowSpeed);
-        tempoSpinner = (Spinner) findViewById(R.id.tapSpinner);
-        beatSpinner = (Spinner) findViewById(R.id.beatSpinner);
-        bpmView = (TextView) findViewById(R.id.tapText);
-        seekBar = (SeekBar) findViewById(R.id.seekBar);
+        switchButton = findViewById(R.id.switchButton);
+        upButton = findViewById(R.id.btnHighSpeed);
+        downButton = findViewById(R.id.btnLowSpeed);
+        tempoSpinner = findViewById(R.id.tapSpinner);
+        beatSpinner = findViewById(R.id.beatSpinner);
+        bpmView = findViewById(R.id.tapText);
+        seekBar = findViewById(R.id.seekBar);
 
         metronome = new Metronome(this, bpm, 4);
         tr = new TempoRange();
@@ -79,11 +76,11 @@ public class MetronomeActivity extends Activity {
                         metronomeThread = new Thread(metronome);
                         metronomeThread.start();
                     }
-                    switchButton.setText("STOP");
+                    switchButton.setText(getResources().getString(R.string.stop));
                 } else if (switchButton.getText().toString().equalsIgnoreCase("STOP")) {
                     metronomeThread.interrupt();
                     metronome.stopMetronome();
-                    switchButton.setText("START");
+                    switchButton.setText(getResources().getString(R.string.start));
                 }
             }
         });

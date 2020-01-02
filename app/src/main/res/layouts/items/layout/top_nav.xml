@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/ic_guitar_background"
@@ -24,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Profil" />
+            android:text="@string/profile" />
 
         <Button
             android:id="@+id/toLeaderboard"
@@ -39,14 +40,15 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:text="@string/logout"
-            android:textColor="@color/common_google_signin_btn_text_dark_default" />
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/toHelp"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="44dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:drawableStart="@drawable/ic_information" />
     </LinearLayout>
 

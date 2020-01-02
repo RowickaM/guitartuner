@@ -24,12 +24,12 @@ public class InfoActivity extends Activity {
 
         new NavigationBottom(this);
 
-        ListView list = (ListView) findViewById(R.id.listAbout);
+        ListView list = findViewById(R.id.listAbout);
         String[] about = getResources().getStringArray(R.array.about);
-        ArrayList<String> aboutL = new ArrayList<String>(Arrays.asList(about));
+        ArrayList<String> aboutL = new ArrayList<>(Arrays.asList(about));
         ArrayAdapter<String> adapter;
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, aboutL);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, aboutL);
         list.setAdapter(adapter);
     }
 }

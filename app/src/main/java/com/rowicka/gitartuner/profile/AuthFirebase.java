@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.rowicka.gitartuner.collections.leaderboard.LeaderboardCollection;
 import com.rowicka.gitartuner.collections.user.UsersCollection;
 
+import java.util.Objects;
+
 public class AuthFirebase {
 
     private FirebaseAuth firebaseAuth;
@@ -48,7 +50,7 @@ public class AuthFirebase {
      * @param email string zawierający email użytkownika
      * @param password string zawierający hasło użytkownika
      */
-    public void userLogin(String email, String password) {
+    void userLogin(String email, String password) {
         password = password.trim();
         email = email.trim();
         final ProgressDialog dialog = showLoadingDialog();
@@ -82,7 +84,7 @@ public class AuthFirebase {
      * @param password string zawierający hasło użytkownika
      * @param repeatPassword string zawierający powtórzenie hasła użytkownika
      */
-    public void registerUser(String email, String password, String repeatPassword) {
+    void registerUser(String email, String password, String repeatPassword) {
 
         email = email.trim();
         password = password.trim();
@@ -100,7 +102,7 @@ public class AuthFirebase {
                             if (task.isSuccessful()) {
                                 Log.d("Registration", "createUserWithEmail:success");
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                                UsersCollection uc = new UsersCollection(user.getUid());
+                                UsersCollection uc = new UsersCollection(Objects.requireNonNull(user).getUid());
                                 uc.addUser(finalEmail);
                                 LeaderboardCollection lc = new LeaderboardCollection(user.getUid());
                                 lc.createDocument();
