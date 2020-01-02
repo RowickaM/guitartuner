@@ -18,6 +18,12 @@ public class TempoRange {
         array.add(new TempoStatistic("PRESTISSIMO", 200, 208));
     }
 
+    /**
+     * Funkcja zwracająca obiekt typu TempoStatic
+     * @param name nazwa tempa
+     * @return zwraca obiekt TempoStatic jeśli znajdzie w liście nazwę pasującą do podanej
+     * w innym przypadku zwróci null
+     */
     public TempoStatistic getTempo(String name){
         if (array != null) {
             for (TempoStatistic ts : array) {

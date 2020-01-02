@@ -19,36 +19,47 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasa LeaderbaordAdapter służy do utworzenia listy potrzebnej do wyświetlenia rankingu w aplikacji
+ */
 public class LeaderboardAdapter extends ArrayAdapter<Leaderboard> {
     private static final String TAG = "LeaderboardAdapter";
     private Context context;
-    private List<Leaderboard> list = new ArrayList<>();
+    private List<Leaderboard> list;
     private String group;
 
-    public LeaderboardAdapter(@NonNull Context context,
-                              @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<Leaderboard> list,
-                                String group) {
+    LeaderboardAdapter(@NonNull Context context,
+                       @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<Leaderboard> list,
+                       String group) {
         super(context, 0, list);
         this.context = context;
         this.list = list;
         this.group = group;
-
     }
 
+    /**
+     * Funkcja łączy dane z miejscem wyświetlania danych
+     * @param position pozycja aktualnie sprawdzanej wartości
+     * @param convertView obiekt widoku
+     * @param parent obiekt rodzica widoku
+     * @return zwraca obiekt typu View wyświetlany w oknie aplikacji
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if (listItem == null){
-            listItem = LayoutInflater.from(context).inflate(R.layout.item_leaderboard, parent, false );
+            listItem = LayoutInflater
+                    .from(context)
+                    .inflate(R.layout.item_leaderboard, parent, false);
         }
 
         Leaderboard current = list.get(position);
 
-        TextView nick = (TextView) listItem.findViewById(R.id.nick);
-        TextView place = (TextView) listItem.findViewById(R.id.place);
-        TextView points = (TextView) listItem.findViewById(R.id.points);
-        ImageView avk = (ImageView) listItem.findViewById(R.id.avk);
+        TextView nick = listItem.findViewById(R.id.nick);
+        TextView place = listItem.findViewById(R.id.place);
+        TextView points = listItem.findViewById(R.id.points);
+        ImageView avk = listItem.findViewById(R.id.avk);
 
         place.setText(String.valueOf(position + 1));
         if (current.getUser() != null) {
@@ -60,7 +71,6 @@ public class LeaderboardAdapter extends ArrayAdapter<Leaderboard> {
                     .into(avk);
 
             nick.setText(current.getUser().getNick());
-            Log.d(TAG, "adapter:" + current.getUser().getNick());
         }
         if (group == null){
             points.setText(String.valueOf(current.getAllPoints()));
@@ -70,3 +80,4 @@ public class LeaderboardAdapter extends ArrayAdapter<Leaderboard> {
         return listItem;
     }
 }
+

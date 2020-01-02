@@ -23,12 +23,19 @@ public class LeaderboardCollection {
     private Map<String, Object> collection;
     private ArrayList<Leaderboard> leaderCollection = new ArrayList<>();
 
+    /**
+     * Konstruktor klasy Leaderboard
+     * @param uid unikalna wartość UID dla danego użytkownika
+     */
     public LeaderboardCollection(String uid) {
         this.collection = new HashMap<>();
         this.UID = uid;
         this.db = FirebaseFirestore.getInstance();
     }
 
+    /**
+     * Funkcja która tworzy dokument z kluczem o wartośc UID użytkownika w kolekcji leaderboard (ranking)
+     */
     public void createDocument() {
         Map<String, String> chordTab = new HashMap<>();
         chordTab.put("attempt", "0");
@@ -39,10 +46,7 @@ public class LeaderboardCollection {
         leaderboardCollection.put("all", 0);
         Map<String, Object> group1 = new HashMap<>();
         group1.put("all", 0);
-
-
         group1.put("E-moll", chordTab);
-
         group1.put("D-dur", chordTab);
         group1.put("G-dur", chordTab);
 
@@ -98,6 +102,15 @@ public class LeaderboardCollection {
 
     }
 
+    /**
+     * Funkcja która aktualizuje dokument przypisany do użytkownika w kolekcji leaderboard
+     * @param group nazwa grupy akordów
+     * @param chordName nazwa akordu
+     * @param points nowe punkty przypisane do akordu
+     * @param pointsGroup nowe punkty przypisane do grupy akordów
+     * @param pointsUser nowe punkty przypisane do użytkownika
+     * @param iteration nowa wartośćdla próby w danym akordzie
+     */
     public void updateCollectionForUser(final String group, final String chordName,
                                         final double points, final float pointsGroup,
                                         final float pointsUser, final String iteration) {
@@ -124,6 +137,11 @@ public class LeaderboardCollection {
                 });
     }
 
+
+    /**
+     * Funkcja do pobierania listy użytkowników i przypisanych do nich danych statystycznych
+     * @param dialog okno ładowania
+     */
     public void getCollectionByUID(final ProgressDialog dialog){
         db.collection("leaderboard").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -131,7 +149,6 @@ public class LeaderboardCollection {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()){
                             for (QueryDocumentSnapshot document: Objects.requireNonNull(task.getResult())){
-
                                 final String id = document.getId();
                                 final Map<String, Object> statistic =  getStatistic(document.getData());
                                 leaderCollection.add(new Leaderboard(id, statistic));
@@ -173,12 +190,21 @@ public class LeaderboardCollection {
         });
     }
 
+    /**
+     * Funkcja zwracająca liste zawierających obiekty typu Leadcerboard
+     * @return zwraca liste typu Leaderboard, która łączy użytkownika z jego statystykami
+     */
     public ArrayList<Leaderboard> getLeaderCollection(){
         return this.leaderCollection;
     }
 
+    /**
+     * Funkcja pobierająca dane o statystyce użytkownika z dokumentu
+     * @param data dokument zawierający informacje o statystykach użytkownika
+     * @return zwraca obiekt typu HashMap zawierające informacje o punktach wszystkich gracza
+     * oraz przydzielonych punktach w danej grupie akordów
+     */
     private Map<String, Object> getStatistic(Map<String, Object> data) {
-
         Map<String, Object> statistic = new HashMap<>();
         statistic.put("all", data.get("all"));
 
@@ -201,6 +227,11 @@ public class LeaderboardCollection {
         return statistic;
     }
 
+    /**
+     * Funkcja zwracająca użytkownika
+     * @param data dokument zawierająca inforamacje o użytkowniku
+     * @return obiekt typu User który pasiada informacje o użytkowniku
+     */
     private User getUser(Map<String, Object> data){
         Log.d(TAG, "getUser: "+data.get("email"));
         return new User(Objects.requireNonNull(data.get("email")).toString(),

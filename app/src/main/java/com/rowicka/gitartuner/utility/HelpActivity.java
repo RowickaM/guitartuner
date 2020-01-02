@@ -9,6 +9,11 @@ import com.squareup.picasso.Picasso;
 
 public class HelpActivity extends Activity {
 
+    /**
+     *Funkcja potrzebna do stworzenia okna. Jest ona nadpisywana z klasy Activity.
+     * Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
+     * @param savedInstanceState zawiera informacje o poprzednim stanie
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -17,6 +17,9 @@ import com.rowicka.gitartuner.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasa ChordsAdapter służy do utworzenia listy potrzebnej do wyświetlenia listy akordów w danej grupie
+ */
 public class ChordsAdapter extends ArrayAdapter<Chords> {
 
     private Context context;
@@ -28,6 +31,13 @@ public class ChordsAdapter extends ArrayAdapter<Chords> {
         this.list = list;
     }
 
+    /**
+     * Funkcja łączy dane z miejscem wyświetlania danych
+     * @param position pozycja aktualnie sprawdzanej wartości
+     * @param convertView obiekt widoku
+     * @param parent obiekt rodzica widoku
+     * @return zwraca obiekt typu View wyświetlany w oknie aplikacji
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

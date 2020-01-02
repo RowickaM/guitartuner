@@ -99,3 +99,5 @@ public class MainActivity extends Activity {
         }
     }
 }
+/*todo javadoc od folderu utility*/
+/*todo javadoc getter i setter od folderu learning */

@@ -8,7 +8,7 @@ public class IcoUser {
     private ImageView display;
 
     public IcoUser(Activity activity, String url, int resourceDisplay){
-        this.url = url;
+        this.url = "https://firebasestorage.googleapis.com/v0/b/guitar-tuna.appspot.com/o/user-ico%2F" + url;
         this.display = (ImageView) activity.findViewById(resourceDisplay);
     }
 

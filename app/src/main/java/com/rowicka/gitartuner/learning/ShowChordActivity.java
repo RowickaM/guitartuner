@@ -12,22 +12,22 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rowicka.gitartuner.R;
 import com.rowicka.gitartuner.collections.chords.ChordsCollection;
 import com.rowicka.gitartuner.collections.leaderboard.LeaderboardCollection;
 import com.rowicka.gitartuner.learning.chord.Chord;
-import com.rowicka.gitartuner.profile.LoginActivity;
 import com.rowicka.gitartuner.utility.NavigationBottom;
 import com.rowicka.gitartuner.utility.NavigationTop;
 import com.rowicka.gitartuner.utility.Permission;
 import com.squareup.picasso.Picasso;
-
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.AudioProcessor;
@@ -43,6 +43,7 @@ public class ShowChordActivity extends Activity {
     Permission permission;
     private Thread audioThread;
     private AudioDispatcher dispatcher;
+//    private int[] correctSeq = {1, 1, 1, 1, 1, 1};
     private int[] correctSeq = {0, 0, 0, 0, 0, 0};
     private int isLearning = 1, iteration = 1;
     private String nameGroup, key, keys;
@@ -63,6 +64,9 @@ public class ShowChordActivity extends Activity {
     long tMilliSec, tStart, tBuff, tUpdate = 0L;
     int sec, min, millis;
 
+    /**
+     * Funkcja zamykająca wątak apliakcji
+     */
     public void closeThread() {
         if (dispatcher != null) {
             audioThread.interrupt();
@@ -75,9 +79,12 @@ public class ShowChordActivity extends Activity {
         }
     }
 
+    /**
+     * Funkcja potrzebna do włączenia wątku sprawdzenia częstotliwości odebranego przez mikrofon dźwięku.
+     *
+     */
     public void getPitch() {
         dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
-
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
             public void handlePitch(PitchDetectionResult res, AudioEvent e) {
@@ -98,36 +105,38 @@ public class ShowChordActivity extends Activity {
         audioThread.start();
     }
 
+    /**
+     * Funkcja zaznacząca poprawnie zagrane struny oraz określająca czy dane struny zostały zagrane poprawnie
+     * @param pitchInHz pole przyjmujące informacje o odczytanej częstotliwości dźwięku
+     */
     public void processPitch(float pitchInHz) {
         for (int i = 0; i < correctSeq.length; i++) {
             if (correctSeq[i] == 1) {
                 setCorrect(i);
             }
         }
-
-
         if (chord != null && pitchInHz > 0) {
             if (chord.isCorrect(String.valueOf(pitchInHz), 5)) {
-                setCorrect(5);
+                setCorrect(0);
             }
             if (chord.isCorrect(String.valueOf(pitchInHz), 4)) {
 
-                setCorrect(4);
+                setCorrect(1);
             }
             if (chord.isCorrect(String.valueOf(pitchInHz), 3)) {
 
-                setCorrect(3);
+                setCorrect(2);
             }
             if (chord.isCorrect(String.valueOf(pitchInHz), 2)) {
 
-                setCorrect(2);
+                setCorrect(3);
             }
             if (chord.isCorrect(String.valueOf(pitchInHz), 1)) {
 
-                setCorrect(1);
+                setCorrect(4);
             }
             if (chord.isCorrect(String.valueOf(pitchInHz), 0)) {
-                setCorrect(0);
+                setCorrect(5);
             }
         }
 
@@ -144,6 +153,11 @@ public class ShowChordActivity extends Activity {
         }
     }
 
+    /**
+     * Funkcja sprawdzająca czy wszystkie struny są zaznaczone jako porawnie zagrane
+     * @return zwraca tru jeśli wszytskie stry są zaznaczone jako poprawnie zagrane,
+     * zwraca false jeśli któraś ze strun jest zaznaczona jako niepoprawna
+     */
     private boolean allIsCorrect() {
         for (int i = 0; i < correctSeq.length; i++) {
             if (correctSeq[i] == 0) {
@@ -153,6 +167,12 @@ public class ShowChordActivity extends Activity {
         return true;
     }
 
+    /**
+     * Funkcja zwracająca okno dialogowe o podanym tytule i teści
+     * @param title tytuł okna dialogowego
+     * @param message treść okna dialogowego
+     * @return zwraca okno dialogowe z danymi parametrami
+     */
     private AlertDialog dialog(String title, String message) {
         closeThread();
         stopCountUp();
@@ -230,16 +250,27 @@ public class ShowChordActivity extends Activity {
         return dialogBuilder.show();
     }
 
+    /**
+     * Funkcja zaznacząca strune jako poprawnie zagraną
+     * @param position nr struny mająca oznaczyć się jako zagrana prawidłowo
+     */
     private void setCorrect(int position) {
         string[position].setBackgroundColor(getResources().getColor(R.color.green));
         correctSeq[position] = 1;
     }
 
+    /**
+     * Funkcja zaznacząca strune jako niezagraną zagraną
+     * @param position nr struny mająca oznaczyć się jako niezagraną
+     */
     private void setDefault(int position) {
         string[position].setBackgroundColor(Color.WHITE);
         correctSeq[position] = 0;
     }
 
+    /**
+     * Funkcja ustalająca liczbę punktów przydzielanych użytkownikowi
+     */
     private void setPoints() {
         float score = 0;
 
@@ -274,16 +305,13 @@ public class ShowChordActivity extends Activity {
         //za ilość prób
         switch ((int) attempt) {
             case 0:
-                score *= 4;
-                break;
-            case 1:
-                score *= 3;
-                break;
-            case 2:
                 score *= 5;
                 break;
-            default:
-                score *= 1;
+            case 1:
+                score *= 4;
+                break;
+            case 2:
+                score *= 3;
                 break;
         }
 
@@ -291,6 +319,9 @@ public class ShowChordActivity extends Activity {
         this.allPoints[1] = score;
     }
 
+    /**
+     * Funkcja rozpoczynająca odmierzanie mierzenie czasu
+     */
     private void startCountUp() {
         Log.d(TAG, "startCountUp: ");
         tStart = SystemClock.uptimeMillis();
@@ -298,6 +329,9 @@ public class ShowChordActivity extends Activity {
         chronometer.start();
     }
 
+    /**
+     * Funkcja kończąca odmierzanie mierzenie czasu
+     */
     private void stopCountUp() {
         tMilliSec = 0L;
         tStart = 0L;
@@ -311,12 +345,17 @@ public class ShowChordActivity extends Activity {
 
     }
 
+    /**
+     * @return zwraca stringa z mającym się wyświetlić tekstem na liczniku czasu
+     */
     @SuppressLint("DefaultLocale")
     private String setTextChronometer(){
         return String.format("%s:%s:%s", String.format("%02d", min), String.format("%02d", sec), String.format("%02d", millis));
     }
 
-    //do odmierzania czasu
+    /**
+     * zmienna przetrzymująca infrormacje o działaniu czasomierza w nowym wątku
+     */
     public Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -331,6 +370,11 @@ public class ShowChordActivity extends Activity {
         }
     };
 
+    /**
+     *Funkcja potrzebna do stworzenia okna. Jest ona nadpisywana z klasy Activity.
+     * Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
+     * @param savedInstanceState zawiera informacje o poprzednim stanie
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -339,6 +383,7 @@ public class ShowChordActivity extends Activity {
         permission = new Permission(this);
         permission.permissions();
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         new NavigationBottom(this);
         new NavigationTop(this);
 
@@ -357,6 +402,9 @@ public class ShowChordActivity extends Activity {
             keys = bundle.getString("keys");
             iteration = bundle.getInt("progress");
             isLearning = bundle.getInt("isLearning");
+            if (isLearning == 1){
+                chronometer.setVisibility(View.INVISIBLE);
+            }
         }
 
         ProgressDialog dialog = new ProgressDialog(this);
@@ -407,7 +455,9 @@ public class ShowChordActivity extends Activity {
                 } else {
                     finish();
                     overridePendingTransition(0, 0);
-                    startActivity(new Intent(ShowChordActivity.this, LoginActivity.class));
+
+                    Toast.makeText(ShowChordActivity.this, "Nieoczekiwany błąd", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(ShowChordActivity.this, BasicLearningActivity.class));
                     overridePendingTransition(0, 0);
                 }
             }
@@ -424,12 +474,21 @@ public class ShowChordActivity extends Activity {
         });
     }
 
+    /**
+     *Funkcja potrzebna do nadpisania działania aplikacji w czasie wyłączania aktywności.
+     * Jest ona nadpisywana z klasy Activity.
+     * Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
+     */
     @Override
     protected void onStop() {
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         closeThread();
         super.onStop();
     }
 
+    /**
+     *Funkcja potrzebna do nadpisania działania aplikacji po naciśnięciu przycisku cofnij
+     */
     @Override
     public void onBackPressed() {
         // super.onBackPressed();

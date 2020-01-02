@@ -12,6 +12,11 @@ import java.util.Arrays;
 
 public class InfoActivity extends Activity {
 
+    /**
+     *Funkcja potrzebna do stworzenia okna. Jest ona nadpisywana z klasy Activity.
+     * Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
+     * @param savedInstanceState zawiera informacje o poprzednim stanie
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,8 +28,8 @@ public class InfoActivity extends Activity {
         String[] about = getResources().getStringArray(R.array.about);
         ArrayList<String> aboutL = new ArrayList<String>(Arrays.asList(about));
         ArrayAdapter<String> adapter;
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, aboutL);
 
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, aboutL);
         list.setAdapter(adapter);
     }
 }

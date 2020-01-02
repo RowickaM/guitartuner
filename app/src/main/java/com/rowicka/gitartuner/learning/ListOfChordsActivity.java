@@ -25,6 +25,11 @@ public class ListOfChordsActivity extends Activity {
     private String nameGroup;
     private String[] keys;
 
+    /**
+     *Funkcja potrzebna do stworzenia okna. Jest ona nadpisywana z klasy Activity.
+     *Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
+     * @param savedInstanceState zawiera informacje o poprzednim stanie
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +38,7 @@ public class ListOfChordsActivity extends Activity {
         new NavigationBottom(this);
         new NavigationTop(this);
 
-        AuthFirebase auth = new AuthFirebase(this);
-        if(!auth.checkUserLogin()){
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(new Intent(ListOfChordsActivity.this, LoginActivity.class));
-            overridePendingTransition(0, 0);
-        }
+        final AuthFirebase auth = new AuthFirebase(this);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -61,56 +60,82 @@ public class ListOfChordsActivity extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final Intent intent = new Intent(ListOfChordsActivity.this, ShowChordActivity.class);
-                intent.putExtra("group", nameGroup);
-                intent.putExtra("key", keys[i]);
 
-
-                Dialog dialog = new AlertDialog.Builder(ListOfChordsActivity.this)
-                        .setTitle("Wybierz tryb")
-                        .setMessage("W trybie ranking masz cztery próby. " +
-                                "Za każdą będziesz dostawał punkty, które będą liczone do rankingów. " +
-                                "\nW trybie nauka punkty nie są naliczane.")
-                        .setPositiveButton("Ranking", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                intent.putExtra("isLearning", 0);
-                                intent.putExtra("progress", 1);
-                                StringBuilder sb = new StringBuilder();
-                                for (String str : keys) {
-                                    sb.append(str);
-                                    sb.append(";");
+                if(!auth.checkUserLogin()){
+                    new AlertDialog.Builder(ListOfChordsActivity.this)
+                            .setTitle("Wymagane zalogowanie")
+                            .setMessage("Do tej części aplikacji wymagane jest aktywne konto. Konto jest całkowicie darmowe.")
+                            .setNeutralButton("Nie chce konta", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
                                 }
-                                intent.putExtra("keys", sb.toString());
-                                finish();
-                                overridePendingTransition(0, 0);
-                                startActivity(intent);
-                                overridePendingTransition(0, 0);
-                            }
-                        })
-                        .setNeutralButton("Anuluj", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .setNegativeButton("Nauka", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                intent.putExtra("isLearning", 1);
-                                finish();
-                                overridePendingTransition(0, 0);
-                                startActivity(intent);
-                                overridePendingTransition(0, 0);
-                            }
-                        })
-                        .show();
+                            })
+                            .setPositiveButton("Przejdź do logowania", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                    finish();
+                                    overridePendingTransition(0, 0);
+                                    startActivity(new Intent(ListOfChordsActivity.this, LoginActivity.class));
+                                    overridePendingTransition(0, 0);
+                                }
+                            })
+                            .show();
+
+                }else {
+                    final Intent intent = new Intent(ListOfChordsActivity.this, ShowChordActivity.class);
+                    intent.putExtra("group", nameGroup);
+                    intent.putExtra("key", keys[i]);
 
 
+                    Dialog dialog = new AlertDialog.Builder(ListOfChordsActivity.this)
+                            .setTitle("Wybierz tryb")
+                            .setMessage("W trybie ranking masz cztery próby. " +
+                                    "Za każdą będziesz dostawał punkty, które będą liczone do rankingów. " +
+                                    "\nW trybie nauka punkty nie są naliczane.")
+                            .setPositiveButton("Ranking", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    intent.putExtra("isLearning", 0);
+                                    intent.putExtra("progress", 1);
+                                    StringBuilder sb = new StringBuilder();
+                                    for (String str : keys) {
+                                        sb.append(str);
+                                        sb.append(";");
+                                    }
+                                    intent.putExtra("keys", sb.toString());
+                                    finish();
+                                    overridePendingTransition(0, 0);
+                                    startActivity(intent);
+                                    overridePendingTransition(0, 0);
+                                }
+                            })
+                            .setNeutralButton("Anuluj", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNegativeButton("Nauka", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    intent.putExtra("isLearning", 1);
+                                    finish();
+                                    overridePendingTransition(0, 0);
+                                    startActivity(intent);
+                                    overridePendingTransition(0, 0);
+                                }
+                            })
+                            .show();
+                }
             }
         });
     }
 
+    /**
+     *Funkcja potrzebna do nadpisania działania aplikacji po naciśnięciu przycisku cofnij
+     */
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();

@@ -25,6 +25,11 @@ public class MetronomeActivity extends Activity {
     double measure, bpm;
     private static final String TAG = "MetronomeActivity";
 
+    /**
+     * Funkcja zmienia wartość tempa
+     * @param newBpm nowa wartość tempa
+     * @param switcher 1-zmiana wartości na pasku (seekbar)
+     */
     private void changeBpm(double newBpm, int switcher) {
         if (newBpm >= 40 && newBpm <= 208) {
             this.bpm = newBpm;
@@ -33,14 +38,17 @@ public class MetronomeActivity extends Activity {
                 seekBar.setProgress((int) newBpm);
             }
         }
-
     }
 
     private void changeMeasure(double measure) {
         this.measure = measure;
-
     }
 
+    /**
+     *Funkcja potrzebna do stworzenia okna. Jest ona nadpisywana z klasy Activity.
+     * Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
+     * @param savedInstanceState zawiera informacje o poprzednim stanie
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,7 +131,6 @@ public class MetronomeActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String name = adapterView.getItemAtPosition(i).toString();
-
                 changeBpm(tr.getTempo(name).getMin(),1);
                 metronome.setBpm(bpm);
 
@@ -142,16 +149,17 @@ public class MetronomeActivity extends Activity {
                 changeMeasure(Double.parseDouble(beat.split("/")[0]));
                 metronome.setMeasure(measure);
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView){}
         });
-
 
     }
 
+    /**
+     *Funkcja potrzebna do nadpisania działania aplikacji w czasie wyłączania aktywności.
+     * Jest ona nadpisywana z klasy Activity.
+     * Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
+     */
     @Override
     protected void onStop() {
         metronomeThread.interrupt();
@@ -159,6 +167,9 @@ public class MetronomeActivity extends Activity {
         super.onStop();
     }
 
+    /**
+     *Funkcja potrzebna do nadpisania działania aplikacji po naciśnięciu przycisku cofnij
+     */
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();

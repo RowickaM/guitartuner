@@ -38,13 +38,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="Wyloguj"
+            android:text="@string/logout"
             android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
         <Button
             android:id="@+id/toHelp"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="44dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
             android:drawableStart="@drawable/ic_information" />
     </LinearLayout>
 

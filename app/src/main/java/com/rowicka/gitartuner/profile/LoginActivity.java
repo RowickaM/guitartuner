@@ -17,6 +17,11 @@ public class LoginActivity extends Activity {
     Button loginButton;
     TextView toRegistration;
 
+    /**
+     *Funkcja potrzebna do stworzenia okna. Jest ona nadpisywana z klasy Activity.
+     * Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
+     * @param savedInstanceState zawiera informacje o poprzednim stanie
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +54,9 @@ public class LoginActivity extends Activity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                auth.userLogin(login.getText().toString(), password.getText().toString());
+                if (!login.getText().toString().trim().isEmpty() && !password.getText().toString().trim().isEmpty()){
+                    auth.userLogin(login.getText().toString(), password.getText().toString());
+                }
             }
         });
 

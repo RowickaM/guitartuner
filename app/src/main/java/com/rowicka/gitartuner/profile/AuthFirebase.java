@@ -26,15 +26,28 @@ public class AuthFirebase {
         this.firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    /**
+     * Funkcja sprawdzająca czy jakiś użytkownik jest zalogowany
+     * @return true jeśli jakiś użytkownik jest zalogowany
+     * false jeśli żaden użytkownik nie jest zalogowany
+     */
     public boolean checkUserLogin() {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         return currentUser != null;
     }
 
+    /**
+     * Funkcja wylogowuje aktualnie zalogowanego użytkownika
+     */
     public void logout() {
         firebaseAuth.signOut();
     }
 
+    /**
+     * Funkcja odpowiedzialna za zalogowanie użytkownika
+     * @param email string zawierający email użytkownika
+     * @param password string zawierający hasło użytkownika
+     */
     public void userLogin(String email, String password) {
         password = password.trim();
         email = email.trim();
@@ -63,6 +76,12 @@ public class AuthFirebase {
         }
     }
 
+    /**
+     * Funkcja odpowiedzialna za rejestracje użytkownika
+     * @param email string zawierający email użytkownika
+     * @param password string zawierający hasło użytkownika
+     * @param repeatPassword string zawierający powtórzenie hasła użytkownika
+     */
     public void registerUser(String email, String password, String repeatPassword) {
 
         email = email.trim();
@@ -81,14 +100,10 @@ public class AuthFirebase {
                             if (task.isSuccessful()) {
                                 Log.d("Registration", "createUserWithEmail:success");
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
-
                                 UsersCollection uc = new UsersCollection(user.getUid());
-                                uc.addUser(
-                                        finalEmail);
-
+                                uc.addUser(finalEmail);
                                 LeaderboardCollection lc = new LeaderboardCollection(user.getUid());
                                 lc.createDocument();
-
                                 dialog.dismiss();
                                 updateUI(user);
                             } else {
@@ -100,13 +115,18 @@ public class AuthFirebase {
                             }
                         }
                     });
-
         } else {
             dialog.dismiss();
             Toast.makeText(context, "Wymagane pola są puste", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * Funkcja odpowiedzialna za sprawdzenie identyczności haseł
+     * @param password string zawierający hasło użytkownika
+     * @param repeatPassword string zawierający powtórzenie hasła użytkownika
+     * @return true jeśli hasła są identyczne, false gdy hasła nie są identyczne
+     */
     private boolean checkPassword(String password, String repeatPassword) {
         if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(repeatPassword)) {
             if (password.equals(repeatPassword)) {
@@ -121,6 +141,10 @@ public class AuthFirebase {
         }
     }
 
+    /**
+     * Funkcja odpwiedzialna za aktualizacje wyświetlanych okien
+     * @param currentUser aktualnie zalogowany użytkownik
+     */
     private void updateUI(FirebaseUser currentUser) {
 
         if (currentUser != null) {
@@ -128,6 +152,10 @@ public class AuthFirebase {
         }
     }
 
+    /**
+     * Funkcja tworząca okno ładowania
+     * @return zwraca okno ładowania
+     */
     private ProgressDialog showLoadingDialog(){
         ProgressDialog dialog = new ProgressDialog(context);
         dialog.setMessage("Ładowanie");

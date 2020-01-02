@@ -6,20 +6,31 @@ public class Chord {
     private String urlSchema;
     private float attempt, points, allInGroup, allForUser;
 
+    /**
+     * Konstruktor klasy Chord
+     * @param name nazwa akordu
+     * @param correctFrequency wymagane częstotliwośći w tablicy (od najgrubszej do najcieńszej)
+     * @param url string zawierający adres schematu akordu
+     */
     public Chord(String name, String[] correctFrequency, String url) {
         this.name = name;
         this.correctFrequency = correctFrequency;
         this.urlSchema = url;
     }
 
+    /**
+     * Funkcja sprawdzająca poprawność zagranego dźwięku z wymaganym dźwiękej z danej struny
+     * @param frequency odczytana częstotliwość dźwięku
+     * @param position nr struny którą funkcja ma sprawdzić
+     * @return zwraca tru jeśli wartość odczytana różni się o maksymalnie +/- 2Hz w innym przypadku zwraca false
+     */
     public boolean isCorrect(String frequency, int position){
-
         float correct = Float.parseFloat(correctFrequency[position]);
         float actual = Float.parseFloat(frequency);
         float difference = (int) Math.round(correct - actual);
-
-        if (correct == 0)
+        if (correct == 0){
             return true;
+        }
         return Math.abs(difference) <= 2;
     }
 

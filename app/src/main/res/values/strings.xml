@@ -42,6 +42,8 @@
         <item>Ikony avatarów użytkowników - użytkownik Roundicons</item>
         <item>Obraz ręki - https://beznut.com/static/upload/store/akordy/schematy/lewa_reka.png</item>
     </array>
+    <string name="logout">Wyloguj</string>
+    <string name="login">Zaloguj</string>
     <string name="header_info">Ikony pochodzą od użytkowników strony FLATICON.</string>
     <string name="app_name">TuneMeUp</string>
     <string name="start_string">Do poprawnego działania aplikacji wymagane są następujące pozwolenia:</string>

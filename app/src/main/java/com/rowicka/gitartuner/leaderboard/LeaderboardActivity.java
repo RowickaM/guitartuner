@@ -24,8 +24,12 @@ public class LeaderboardActivity extends Activity {
     private ListView listView;
     private LeaderboardAdapter adapter;
 
+    /**
+     * Funkcja pobierająca statystyki użytkowników z wszystkich grup
+     * @return zwraca liste posortowanych użytkowników według ich zdobytych punktów
+     */
     private ArrayList<Leaderboard> getAll() {
-        Leaderboard[] leaderboards = list.toArray(new Leaderboard[list.size()]);
+        Leaderboard[] leaderboards = list.toArray(new Leaderboard[0]);
         Leaderboard temp;
         for (int i = 0; i < leaderboards.length; i++) {
             for (int j = 0; j < leaderboards.length - 1; j++)
@@ -36,11 +40,16 @@ public class LeaderboardActivity extends Activity {
                 }
         }
 
-        return new ArrayList<Leaderboard>(Arrays.asList(leaderboards));
+        return new ArrayList<>(Arrays.asList(leaderboards));
     }
 
+    /**
+     * Funkcja pobierająca statystyki użytkowników dla danej grupy
+     * @param str nazwa grupy
+     * @return zwraca liste posortowanych użytkowników według ich zdobytych punktów
+     */
     private ArrayList<Leaderboard> getGroup(String str) {
-        Leaderboard[] leaderboards = list.toArray(new Leaderboard[list.size()]);
+        Leaderboard[] leaderboards = list.toArray(new Leaderboard[0]);
         Leaderboard temp;
         for (int i = 0; i < leaderboards.length; i++) {
             for (int j = 0; j < leaderboards.length - 1; j++)
@@ -51,10 +60,14 @@ public class LeaderboardActivity extends Activity {
                 }
         }
 
-        return new ArrayList<Leaderboard>(Arrays.asList(leaderboards));
+        return new ArrayList<>(Arrays.asList(leaderboards));
     }
 
-
+    /**
+     *Funkcja potrzebna do stworzenia okna. Jest ona nadpisywana z klasy Activity.
+     * Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
+     * @param savedInstanceState zawiera informacje o poprzednim stanie
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +88,7 @@ public class LeaderboardActivity extends Activity {
         dialog.show();
 
         leaderboardCollection.getCollectionByUID(dialog);
-        listView = (ListView) findViewById(R.id.leaderboardList);
+        listView = findViewById(R.id.leaderboardList);
 
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

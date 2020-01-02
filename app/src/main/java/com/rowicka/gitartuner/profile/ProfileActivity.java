@@ -18,6 +18,8 @@ import com.rowicka.gitartuner.collections.user.UsersCollection;
 import com.rowicka.gitartuner.learning.BasicLearningActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 public class ProfileActivity extends Activity {
 
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -25,16 +27,18 @@ public class ProfileActivity extends Activity {
     User user;
     ProgressDialog dialog;
 
+    /**
+     * Funkcja odpowiedzialna za aktualizacje wyglądu okna
+     */
     private void updateUI() {
-        TextView email = (TextView) findViewById(R.id.email);
-        EditText nick = (EditText) findViewById(R.id.nick);
-        ImageView avatar = (ImageView) findViewById(R.id.avatar);
-        Button updateData = (Button) findViewById(R.id.change);
+        TextView email = findViewById(R.id.email);
+        EditText nick = findViewById(R.id.nick);
+        ImageView avatar = findViewById(R.id.avatar);
+        Button updateData = findViewById(R.id.change);
 
         email.setText(user.getEmail());
         nick.setText(user.getNick());
 
-        //image
         Picasso.with(this)
                 .load(user.getImgUrl())
                 .placeholder(R.mipmap.ic_guitar_round)
@@ -53,8 +57,8 @@ public class ProfileActivity extends Activity {
         updateData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final UsersCollection uc = new UsersCollection(firebaseAuth.getCurrentUser().getUid());
-                EditText nick = (EditText) findViewById(R.id.nick);
+                final UsersCollection uc = new UsersCollection(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid());
+                EditText nick = findViewById(R.id.nick);
                 if (!TextUtils.isEmpty(nick.getText().toString().trim())) {
                     uc.updateUser(
                             ProfileActivity.this,
@@ -65,6 +69,11 @@ public class ProfileActivity extends Activity {
         });
     }
 
+    /**
+     *Funkcja potrzebna do stworzenia okna. Jest ona nadpisywana z klasy Activity.
+     * Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
+     * @param savedInstanceState zawiera informacje o poprzednim stanie
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +115,9 @@ public class ProfileActivity extends Activity {
 
     }
 
+    /**
+     *Funkcja potrzebna do nadpisania działania aplikacji po naciśnięciu przycisku cofnij
+     */
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();

@@ -27,21 +27,29 @@ public class Metronome implements Runnable {
         this.measure = measure;
     }
 
+    /**
+     * Funkcja uruchamiająca dźwięk
+     * @param counter licznik oddanych dźwięków
+     */
+    private void beep(int counter){
+        if (counter%measure == 0){
+           beat2.start();
+        }else {
+            beat1.start();
+        }
+    }
+
+    /**
+     * Funkcja odpowiedzialna za poprawne wyzerowania stanu zmienneych po wyłączeniu wątku
+     */
     public void stopMetronome(){
         this.start = false;
         this.counter=0;
-
     }
 
-    private void beep(int counter){
-        if (counter%measure == 0){
-           beat1.start();
-        }else {
-            beat2.start();
-        }
-
-    }
-
+    /**
+     * Nadpisana funkcja z interfejsu Runnable, która zawiera informacje o działaniu wątku
+     */
     @Override
     public void run() {
         this.start = true;
@@ -49,6 +57,7 @@ public class Metronome implements Runnable {
             beep(counter);
             counter++;
             try {
+                /*wyliczenie odległości pomiędzy dźwiękami*/
                 Thread.sleep((long)(1000 * (60.0/bpm)));
             } catch (InterruptedException e) {
                 e.printStackTrace();

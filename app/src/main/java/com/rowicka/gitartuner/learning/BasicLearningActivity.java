@@ -10,16 +10,19 @@ import com.rowicka.gitartuner.R;
 import com.rowicka.gitartuner.learning.chordsGroup.ChordsGroup;
 import com.rowicka.gitartuner.learning.chordsGroup.ChordsGroupAdapter;
 import com.rowicka.gitartuner.profile.AuthFirebase;
-import com.rowicka.gitartuner.profile.LoginActivity;
 import com.rowicka.gitartuner.utility.NavigationBottom;
 import com.rowicka.gitartuner.utility.NavigationTop;
-
 import java.util.ArrayList;
 
 public class BasicLearningActivity extends Activity {
 
     private ArrayList<ChordsGroup> list;
 
+    /**
+     *Funkcja potrzebna do stworzenia okna. Jest ona nadpisywana z klasy Activity.
+     * Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
+     * @param savedInstanceState zawiera informacje o poprzednim stanie
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +32,6 @@ public class BasicLearningActivity extends Activity {
         new NavigationTop(this);
 
         AuthFirebase auth = new AuthFirebase(this);
-        if(!auth.checkUserLogin()){
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(new Intent(BasicLearningActivity.this, LoginActivity.class));
-            overridePendingTransition(0, 0);
-        }
 
         ListView listView = (ListView) findViewById(R.id.chordsGroupList);
         list = new ArrayList<>();
@@ -83,6 +80,9 @@ public class BasicLearningActivity extends Activity {
         });
     }
 
+    /**
+     *Funkcja potrzebna do nadpisania działania aplikacji po naciśnięciu przycisku cofnij
+     */
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
