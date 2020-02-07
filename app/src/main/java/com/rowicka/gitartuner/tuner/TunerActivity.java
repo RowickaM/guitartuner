@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -14,11 +15,14 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.rowicka.gitartuner.R;
 import com.rowicka.gitartuner.utility.NavigationBottom;
 import com.rowicka.gitartuner.utility.Permission;
+
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.AudioProcessor;
@@ -37,14 +41,13 @@ public class TunerActivity extends Activity {
     TextView[] strings;
     ConstraintLayout[] stringsBack;
     int frequencyReq = 0;
-    private int[] correctSeq = {0,0,0,0,0,0};
+    private int[] correctSeq = {0, 0, 0, 0, 0, 0};
     private Thread audioThread;
     private AudioDispatcher dispatcher;
 
     /**
      * Funkcja potrzebna do włączenia wątku sprawdzenia częstotliwości
      * odebranego przez mikrofon dźwięku - wszystkie struny na raz.
-     *
      */
     public void getPitch() {
         dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
@@ -70,7 +73,6 @@ public class TunerActivity extends Activity {
     /**
      * Funkcja potrzebna do włączenia wątku sprawdzenia częstotliwości
      * odebranego przez mikrofon dźwięku - po jednej strunie na raz.
-     *
      */
     public void checkPitch(final int position) {
         dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
@@ -111,6 +113,7 @@ public class TunerActivity extends Activity {
 
     /**
      * Funkcja zaznacza w oknie że struna jest wybrana i jest zagraqna prawidłowo
+     *
      * @param position nr struny określonej jako zagranej
      */
     public void setChosenAndCorrect(int position) {
@@ -121,6 +124,7 @@ public class TunerActivity extends Activity {
 
     /**
      * Funkcja zaznacza w oknie że struna nie jest wybrana i jest zagraqna prawidłowo
+     *
      * @param position nr struny określonej jako zagranej
      */
     public void setNotChosenAndCorrect(int position) {
@@ -130,6 +134,7 @@ public class TunerActivity extends Activity {
 
     /**
      * Funkcja zaznacza w oknie że struna jest wybrana i nie jest zagraqna prawidłowo
+     *
      * @param position nr struny określonej jako zagranej
      */
     public void setChosenAndNotCorrect(int position) {
@@ -140,6 +145,7 @@ public class TunerActivity extends Activity {
 
     /**
      * Funkcja zaznacza w oknie że struna nie jest wybrana i nie jest zagraqna prawidłowo
+     *
      * @param position nr struny określonej jako zagranej
      */
     public void setNotChosenAndNotCorrect(int position) {
@@ -150,18 +156,20 @@ public class TunerActivity extends Activity {
     /**
      * Funkcja sprawdzająca która ze strun ma taką samą lub zbliżoną (+/- 2) częstotliwość
      * do którejś z wymaganych częstotliwości
+     *
      * @param pitchInHz pole przyjmujące informacje o odczytanej częstotliwości dźwięku
      */
     public void processPitch(float pitchInHz) {
-        TextView pitchText =  findViewById(R.id.pitchText);
+        TextView pitchText = findViewById(R.id.pitchText);
         String[] array = Notes.getNote(String.valueOf(pitchInHz));
         for (int i = 0; i < correctSeq.length; i++) {
             if (correctSeq[i] == 1) {
                 setNotChosenAndCorrect(i);
-            }else{
+            } else {
                 setNotChosenAndNotCorrect(i);
             }
         }
+        Log.d("test_sound", "process: " + pitchInHz);
         if (array != null) {
             TextView correctText = findViewById(R.id.correctPitch);
             correctText.setText(array[2]);
@@ -174,7 +182,7 @@ public class TunerActivity extends Activity {
                 if (s.equals("-")) {
                     pitchText.setText(array[1]);
                 } else {
-                    pitchText.setText("+"+array[1]);
+                    pitchText.setText("+" + array[1]);
                 }
             }
         }
@@ -183,6 +191,7 @@ public class TunerActivity extends Activity {
 
     /**
      * Funkcja sprawdzająca czy struna ma taką samą lub zbliżoną (+/- 2) częstotliwość do wymaganej
+     *
      * @param pitchInHz pole przyjmujące informacje o odczytanej częstotliwości dźwięku
      */
     public void process(float pitchInHz, int position) {
@@ -190,20 +199,21 @@ public class TunerActivity extends Activity {
         for (int i = 0; i < correctSeq.length; i++) {
             if (correctSeq[i] == 1) {
                 setNotChosenAndCorrect(i);
-            }else{
+            } else {
                 setNotChosenAndNotCorrect(i);
             }
         }
+        Log.d("test_sound", "process: " + pitchInHz);
         if ((pitchInHz > -1.0)) {
             int diff = (int) (pitchInHz - frequencyReq);
 
             if (diff == 0) {
                 pitchText.setText(String.valueOf(diff));
                 setChosenAndCorrect(position);
-            } else if (correctSeq[position] == 0){
+            } else if (correctSeq[position] == 0) {
                 setChosenAndNotCorrect(position);
                 if (pitchInHz - frequencyReq > 0) {
-                    pitchText.setText("+"+diff);
+                    pitchText.setText("+" + diff);
                 } else {
                     pitchText.setText(String.valueOf(diff));
                 }
@@ -214,8 +224,9 @@ public class TunerActivity extends Activity {
 
 
     /**
-     *Funkcja potrzebna do stworzenia okna. Jest ona nadpisywana z klasy Activity.
+     * Funkcja potrzebna do stworzenia okna. Jest ona nadpisywana z klasy Activity.
      * Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
+     *
      * @param savedInstanceState zawiera informacje o poprzednim stanie
      */
     @Override
@@ -248,8 +259,6 @@ public class TunerActivity extends Activity {
                 findViewById(R.id.string5),
                 findViewById(R.id.string6)
         };
-
-
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -335,7 +344,7 @@ public class TunerActivity extends Activity {
     }
 
     /**
-     *Funkcja potrzebna do nadpisania działania aplikacji w czasie wyłączania aktywności.
+     * Funkcja potrzebna do nadpisania działania aplikacji w czasie wyłączania aktywności.
      * Jest ona nadpisywana z klasy Activity.
      * Jest jedną z kliku dostępnych stanów z cyku życia aktywności.
      */
@@ -349,8 +358,9 @@ public class TunerActivity extends Activity {
 
     /**
      * Funkcja odpowiedzialna za sprawdzednie nadania pozwolenia
-     * @param requestCode kod pozwolenia
-     * @param permissions pozwolenia
+     *
+     * @param requestCode  kod pozwolenia
+     * @param permissions  pozwolenia
      * @param grantResults wynik nadania pozwoleń
      */
     @TargetApi(Build.VERSION_CODES.M)
@@ -384,7 +394,7 @@ public class TunerActivity extends Activity {
     }
 
     /**
-     *Funkcja potrzebna do nadpisania działania aplikacji po naciśnięciu przycisku cofnij
+     * Funkcja potrzebna do nadpisania działania aplikacji po naciśnięciu przycisku cofnij
      */
     @Override
     public void onBackPressed() {

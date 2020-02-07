@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.rowicka.gitartuner.R;
+import com.rowicka.gitartuner.utility.CheckConnection;
 
 public class RegistrationActivity extends Activity {
 
@@ -25,35 +26,40 @@ public class RegistrationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        final AuthFirebase auth = new AuthFirebase(this);
+        CheckConnection network = new CheckConnection(this);
+        if (network.isConnected()) {
 
-        login = findViewById(R.id.loginSignup);
-        password = findViewById(R.id.passwordSignup);
-        passwordRepeat = findViewById(R.id.passwordRepeatSignup);
-        loginButton = findViewById(R.id.registerButton);
-        toLogin = findViewById(R.id.toLogin);
+            final AuthFirebase auth = new AuthFirebase(this);
 
-        toLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
-                overridePendingTransition(0, 0);
-            }
-        });
+            login = findViewById(R.id.loginSignup);
+            password = findViewById(R.id.passwordSignup);
+            passwordRepeat = findViewById(R.id.passwordRepeatSignup);
+            loginButton = findViewById(R.id.registerButton);
+            toLogin = findViewById(R.id.toLogin);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                auth.registerUser(
-                        login.getText().toString(),
-                        password.getText().toString(),
-                        passwordRepeat.getText().toString()
-                );
-            }
-        });
+            toLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    overridePendingTransition(0, 0);
+                    startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+                    overridePendingTransition(0, 0);
+                }
+            });
 
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    auth.registerUser(
+                            login.getText().toString(),
+                            password.getText().toString(),
+                            passwordRepeat.getText().toString()
+                    );
+                }
+            });
+        }else {
+            network.notConnectedAlertDialog().show();
+        }
 
     }
 }

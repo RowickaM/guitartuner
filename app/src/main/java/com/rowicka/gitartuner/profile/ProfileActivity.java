@@ -16,6 +16,7 @@ import com.rowicka.gitartuner.R;
 import com.rowicka.gitartuner.collections.user.User;
 import com.rowicka.gitartuner.collections.user.UsersCollection;
 import com.rowicka.gitartuner.learning.BasicLearningActivity;
+import com.rowicka.gitartuner.utility.CheckConnection;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
@@ -78,38 +79,44 @@ public class ProfileActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        dialog = new ProgressDialog(this);
-        if (firebaseAuth.getCurrentUser().getUid() != null) {
-            dialog.setMessage("Ładowanie danych");
-            dialog.setCancelable(false);
-            dialog.show();
 
-            final UsersCollection uc = new UsersCollection(firebaseAuth.getCurrentUser().getUid());
-            uc.readUser(dialog);
+        CheckConnection network = new CheckConnection(this);
+        if (network.isConnected()) {
+            dialog = new ProgressDialog(this);
+            if (firebaseAuth.getCurrentUser().getUid() != null) {
+                dialog.setMessage("Ładowanie danych");
+                dialog.setCancelable(false);
+                dialog.show();
 
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    if(uc.getUser() == null){
-                        auth = new AuthFirebase(ProfileActivity.this);
-                        auth.logout();
-                        finish();
-                        overridePendingTransition(0, 0);
-                        startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
-                        overridePendingTransition(0, 0);
-                    }else {
-                        user = uc.getUser();
-                        updateUI();
+                final UsersCollection uc = new UsersCollection(firebaseAuth.getCurrentUser().getUid());
+                uc.readUser(dialog);
+
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        if (uc.getUser() == null) {
+                            auth = new AuthFirebase(ProfileActivity.this);
+                            auth.logout();
+                            finish();
+                            overridePendingTransition(0, 0);
+                            startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+                            overridePendingTransition(0, 0);
+                        } else {
+                            user = uc.getUser();
+                            updateUI();
+                        }
                     }
-                }
-            });
+                });
 
 
+            } else {
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(new Intent(this, LoginActivity.class));
+                overridePendingTransition(0, 0);
+            }
         } else {
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(new Intent(this, LoginActivity.class));
-            overridePendingTransition(0, 0);
+            network.notConnectedAlertDialog().show();
         }
 
 
